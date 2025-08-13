@@ -2,7 +2,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-
+        "build": "echo 'No build step required'"
     },
     "devDependencies": {
         "axios": "^1.6.4"
