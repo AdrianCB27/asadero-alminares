@@ -13,7 +13,11 @@
                     Registro
                 </p>
             </div>
-
+            @if ($errors->any())
+                <div class="mb-4 p-3 bg-red-200 text-red-800 rounded-lg text-center font-semibold">
+                    {{ $errors->first() }}
+                </div>
+            @endif
             <form action="{{route("registrarse")}}" method="POST" class="space-y-6">
                 @csrf
                 <div>

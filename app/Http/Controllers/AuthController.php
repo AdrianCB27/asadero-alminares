@@ -28,10 +28,21 @@ class AuthController extends Controller
      */
     public function registrarse(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'phone_number' => ['required', 'string', 'max:20', Rule::unique('users', 'phone_number')],
-        ]);
+        $request->validate(
+            [
+                'name' => 'required|string|max:255',
+                'phone_number' => [
+                    'required',
+                    'string',
+                    'max:20',
+                    Rule::unique('users', 'phone_number'),
+                ],
+            ],
+            [
+                'phone_number.unique' => 'Ese número de teléfono ya está registrado.',
+                'phone_number.required' => 'El teléfono es obligatorio.',
+            ]
+        );
 
         $user = User::create([
             'name' => $request->name,
@@ -75,8 +86,8 @@ class AuthController extends Controller
 
         // Intenta encontrar al usuario por nombre y número de teléfono
         $user = User::where('name', $request->name)
-                    ->where('phone_number', $request->phone_number)
-                    ->first();
+            ->where('phone_number', $request->phone_number)
+            ->first();
 
         // Si el usuario existe, inicia la sesión manualmente.
         if ($user) {
