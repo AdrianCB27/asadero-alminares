@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
-    public function dashboard()
+
+    public function index()
     {
         $user = auth()->user();
         // Aquí puedes agregar la lógica para el dashboard del administrador
@@ -19,7 +20,7 @@ class AdminController extends Controller
 
         return view('admin.dashboard', ["user" => $user, "setting" => $setting]);
     }
-     public function cambiarTienda(Request $request)
+    public function cambiarTienda(Request $request)
     {
         // El JavaScript envía un JSON con `mostrar_tienda: true/false`
         // Usamos `input()` para obtener el valor del JSON

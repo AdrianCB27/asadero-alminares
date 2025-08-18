@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TiendaController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,18 +19,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/', [AuthController::class, 'logged'])->name('logged');
-Route::post('logout',[AuthController::class, 'logout'])->name('logout');
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/registro', [AuthController::class, 'registroVista'])->name('registroVista');
 Route::post('/registro', [AuthController::class, 'registrarse'])->name('registrarse');
 
-
 Route::get('/tienda', [TiendaController::class, 'index'])->middleware("auth")->name('tienda');
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->middleware("auth")->name('admin.dashboard');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+});
 Route::get('/admin/clientes', [AdminController::class, 'clientes'])->middleware("auth")->name('clientes.index');
 Route::get('/admin/productos', [AdminController::class, 'productos'])->middleware("auth")->name('productos.index');
 Route::post('/admin/productos', [AdminController::class, 'storeProducto'])->middleware("auth")->name('productos.store');
 Route::delete('/admin/productos', [AdminController::class, 'deleteProductos'])->middleware("auth")->name('productos.delete');
 
 Route::post('/admin/cambiar-tienda', [AdminController::class, 'cambiarTienda'])->middleware("auth")->name('cambiarTienda');
-
