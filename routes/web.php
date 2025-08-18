@@ -24,8 +24,9 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/registro', [AuthController::class, 'registroVista'])->name('registroVista');
 Route::post('/registro', [AuthController::class, 'registrarse'])->name('registrarse');
 
-Route::get('/tienda', [TiendaController::class, 'index'])->middleware("auth")->name('tienda');
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'cliente'])->group(function () {
+    Route::get('/tienda', [TiendaController::class, 'index'])->name('tienda');
+});Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 });
 Route::get('/admin/clientes', [AdminController::class, 'clientes'])->middleware("auth")->name('clientes.index');
