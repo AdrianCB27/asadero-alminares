@@ -69,7 +69,7 @@ class CartController extends Controller
 
         $cartItem->delete();
 
-        return response()->json(['message' => 'Producto eliminado de la cesta']);
+        return redirect()->route('cart.view')->with('success', 'Producto eliminado de la cesta');
     }
 
     /**

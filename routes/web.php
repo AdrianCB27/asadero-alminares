@@ -41,6 +41,6 @@ Route::post('/admin/cambiar-tienda', [AdminController::class, 'cambiarTienda'])-
 Route::middleware(['auth','cliente'])->group(function () {
     Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
     Route::post('/cart/add/{productId}', [CartController::class, 'addToCart']);
-    Route::delete('/cart/remove/{productId}', [CartController::class, 'removeFromCart']);
+    Route::delete('/cart/remove/{productId}', [CartController::class, 'removeFromCart'])->name('removeFromCart');
     Route::post('/cart/checkout', [CartController::class, 'checkout']);
 });
