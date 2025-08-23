@@ -210,7 +210,7 @@
     </div>
     <script>
         function eliminarTodo() {
-            Swal.fire({
+           Swal .fire({
                 title: '¿Estás seguro?',
                 text: "Esta acción eliminará todos los productos",
                 icon: 'warning',

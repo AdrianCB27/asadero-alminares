@@ -39,14 +39,37 @@ class AdminController extends Controller
             'message' => 'El estado de la tienda ha sido actualizado.'
         ]);
     }
-    public function clientes()
+    public function clientes(Request $request)
     {
         $user = auth()->user();
-        // Aquí puedes agregar la lógica para mostrar los clientes
-        // Por ejemplo, podrías obtener una lista de usuarios registrados
-        $clientes = User::where('admin', false)->get(); // Obtiene todos los usuarios que no son administradores
 
-        return view('admin.clientes', ["user" => $user, "clientes" => $clientes]); // Asegúrate de que la vista admin.clientes exista
+        // Obtiene el valor del campo 'search' del formulario, si existe
+        $search = $request->input('search');
+
+
+        // Construye la consulta para filtrar los clientes
+        $clientes = User::where('admin', false)
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('phone_number', 'like', "%{$search}%");
+            })
+            ->get();
+
+        return view('admin.clientes', [
+            "user" => $user,
+            "clientes" => $clientes
+        ]);
+    }
+    public function eliminarCliente($id)
+    {
+        try {
+            $cliente = User::findOrFail($id);
+            $cliente->delete();
+            return redirect()->route('clientes.index')->with('success', 'Cliente eliminado exitosamente.');
+        } catch (\Exception $e) {
+            Log::error("Error al eliminar cliente: " . $e->getMessage());
+            return redirect()->route('clientes.index')->with('error', 'No se pudo eliminar el cliente.');
+        }
     }
     public function productos()
     {

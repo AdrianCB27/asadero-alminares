@@ -14,7 +14,7 @@
                 class="username text-l italic font-bold text-red-800 text-center mb-8">
                 {{ Auth::user()->name }} &nbsp; &nbsp;
             </span>
-             <form action="{{ route('logout') }}" method="POST">
+            <form action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button type="submit"
                     class="bg-red-800 hover:bg-red-900 text-white font-bold rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
@@ -44,25 +44,21 @@
                 <h1 class="text-xl font-bold text-gray-900 text-center mb-4">
                     Tienda
                 </h1>
-                @if ($setting->mostrar_tienda)
                 <ul class="divide-y divide-gray-200">
                     @foreach($productos as $producto)
                         <li class="py-4 flex items-center">
                             <div class="ml-0 flex-1 text-2xl ">
                                 <div class="flex justify-center items-center">
-                                    <span class="font-semibold text-red-800">{{ $producto->name }}</span>
+                                    @if ($setting->mostrar_tienda)
+                                        <a href="#" class="font-semibold text-red-800">{{ $producto->name }}</a>
+                                    @else
+                                        <span class="font-semibold text-red-800">{{ $producto->name }}</span>
+                                    @endif
                                 </div>
                             </div>
                         </li>
                     @endforeach
                 </ul>
-
-                    
-                @endif
-
-
-                
-
                 <!-- Horario de la tienda -->
                 <div class="mt-8 pt-4 border-t border-gray-200">
                     <h2 class="text-xl font-bold text-gray-900 text-center mb-2">Horario</h2>
@@ -105,8 +101,7 @@
                         </g>
                     </svg> Pedidos
                 </a>
-                <a href=" "
-                    class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
+                <a href="{{ route('cart.view') }}" class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
                     <svg width="30px" height="30px" viewBox="0 0 1024 1024" fill="#000000" class="icon" version="1.1"
                         xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="6.144">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
