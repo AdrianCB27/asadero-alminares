@@ -68,11 +68,11 @@
                             <div class="ml-0 flex-1 text-2xl ">
                                 <div class="flex justify-center items-center">
                                     @if ($setting->mostrar_tienda)
-                                        <a href="#" class="font-semibold text-red-800"
+                                        <a href="#" class="font-semibold text-red-800 text-center"
                                             onclick="showModal('{{ $producto->name }}', {{ $producto->price }}, {{ $producto->id }})">
                                             {{ $producto->name }}
                                     </a> @else
-                                        <span class="font-semibold text-red-800">{{ $producto->name }}</span>
+                                        <span class="font-semibold text-red-800 text-center">{{ $producto->name }}</span>
                                     @endif
                                 </div>
                             </div>
