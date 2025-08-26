@@ -32,7 +32,7 @@
                                 <div class="flex-1 pr-4">
                                     <p class="text-lg font-semibold text-gray-900">{{ $producto->name }}</p>
                                     <p class="text-sm text-gray-700">{{ number_format($producto->price, 2) }} € Stock:
-                                        {{ $producto->stock }}</p>
+                                       <strong> {{ $producto->stock }}</strong></p>
                                 </div>
                             </li>
                         @endforeach
