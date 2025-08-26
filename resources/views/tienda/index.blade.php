@@ -63,7 +63,7 @@
                     <div class="mt-8 pt-4 border-t border-gray-200">
                         <h2 class="text-xl font-bold text-gray-900 text-center mb-2">Horario</h2>
                         <p class="text-gray-600 text-center font-bold italic">
-                            {{ $mensaje->texto }}
+                            {!! $mensaje->texto !!}
                         </p>
                         
                     </div>
