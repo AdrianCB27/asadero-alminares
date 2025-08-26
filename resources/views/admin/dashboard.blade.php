@@ -85,7 +85,7 @@
                 <form action="{{ route('cambiarMensaje') }}" method="post">
                     @csrf
                     <textarea name="mensaje" id="mensaje" rows="6"
-          class="w-full p-4 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-300 ease-in-out placeholder:text-gray-400">{{$mensaje->texto}}</textarea>
+          class="w-full p-4 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-red-800 transition duration-300 ease-in-out placeholder:text-gray-400">{{$mensaje->texto}}</textarea>
 
                     <input type="submit" value="Cambiar"
                         class="mt-4 w-full bg-red-800 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
