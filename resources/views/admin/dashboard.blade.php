@@ -38,19 +38,19 @@
             </form>
         </div>
 
-        <div class="flex-1 flex items-start justify-center p-4">
+        <div class="flex-1 flex items-start justify-center p-4 mb-20">
             <div class="bg-neutral-100 p-8 md:p-12 rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md">
                 <div class="flex items-center justify-center mb-4">
                     <h1 class="text-xl font-bold text-gray-900">Tienda</h1> &nbsp; &nbsp;
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input id="tienda-checkbox" type="checkbox" class="sr-only peer" {{ $setting->mostrar_tienda ? 'checked' : '' }}>
                         <div class="group peer ring-0 bg-rose-400 rounded-full outline-none duration-300 after:duration-300 w-16 h-8 shadow-md
-            peer-checked:bg-emerald-500 peer-focus:outline-none 
-            after:content-['✖️'] after:rounded-full after:absolute after:bg-gray-50 after:outline-none 
-            after:h-6 after:w-6 after:top-1 after:left-1 
-            after:flex after:justify-center after:items-center 
-            peer-checked:after:translate-x-8 peer-checked:after:content-['✔️'] 
-            peer-hover:after:scale-95">
+                                    peer-checked:bg-emerald-500 peer-focus:outline-none 
+                                    after:content-['✖️'] after:rounded-full after:absolute after:bg-gray-50 after:outline-none 
+                                    after:h-6 after:w-6 after:top-1 after:left-1 
+                                    after:flex after:justify-center after:items-center 
+                                    peer-checked:after:translate-x-8 peer-checked:after:content-['✔️'] 
+                                    peer-hover:after:scale-95">
                         </div>
                     </label>
                 </div>
@@ -58,10 +58,39 @@
                 <div class="bg-blue-50 p-4 rounded-lg text-center text-blue-800 border border-blue-200">
                     <p class="text-sm">@if ($setting->mostrar_tienda)
                         La tienda está activa.
-                        @else
-                        La tienda está inactiva.
-                    @endif</p>
+                    @else
+                            La tienda está inactiva.
+                        @endif</p>
                 </div>
+                <ul class="divide-y divide-gray-200">
+                    @foreach($productos as $producto)
+                        <li class="py-4 flex items-center">
+                            <div class="ml-0 flex-1 text-2xl ">
+                                <div class="flex justify-center items-center">
+                                    @if ($setting->mostrar_tienda)
+                                        <a href="#" class="font-semibold text-red-800"
+                                            onclick="showModal('{{ $producto->name }}', {{ $producto->price }}, {{ $producto->id }})">
+                                            {{ $producto->name }}
+                                    </a> @else
+                                        <span class="font-semibold text-red-800">{{ $producto->name }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+                <h2 class="text-center text-2xl font-bold text-gray-800 mb-4 mt-6">
+                    Mensaje actual
+                </h2>
+                <form action="{{ route('cambiarMensaje') }}" method="post">
+                    @csrf
+                    <textarea name="mensaje" id="mensaje" rows="6"
+          class="w-full p-4 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-300 ease-in-out placeholder:text-gray-400">{{$mensaje->texto}}</textarea>
+
+                    <input type="submit" value="Cambiar"
+                        class="mt-4 w-full bg-red-800 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
+                </form>
+
             </div>
         </div>
 

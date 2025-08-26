@@ -37,6 +37,8 @@ Route::post('/admin/productos', [AdminController::class, 'storeProducto'])->midd
 Route::delete('/admin/productos', [AdminController::class, 'deleteProductos'])->middleware("auth")->name('productos.delete');
 
 Route::post('/admin/cambiar-tienda', [AdminController::class, 'cambiarTienda'])->middleware("auth")->name('cambiarTienda');
+Route::post('/admin/cambiarMensaje', [AdminController::class, 'cambiarMensaje'])->middleware("auth")->name('cambiarMensaje');
+
 
 Route::middleware(['auth','cliente'])->group(function () {
     Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');

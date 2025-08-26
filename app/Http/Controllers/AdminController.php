@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mensaje;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\User;
@@ -17,8 +18,11 @@ class AdminController extends Controller
         // Aquí puedes agregar la lógica para el dashboard del administrador
         // Por ejemplo, podrías obtener estadísticas, listas de usuarios, etc.
         $setting = Setting::first(); // Obtiene la primera configuración, asumiendo que solo hay una fila
+        $mensaje = Mensaje::first(); // Obtiene el primer mensaje, asumiendo que solo hay una fila
+        $productos = Product::all();
 
-        return view('admin.dashboard', ["user" => $user, "setting" => $setting]);
+
+        return view('admin.dashboard', ["user" => $user, "setting" => $setting,"mensaje"=>$mensaje,"productos"=>$productos]);
     }
     public function cambiarTienda(Request $request)
     {
@@ -102,5 +106,22 @@ class AdminController extends Controller
             Log::error($e);
             return response()->json(['message' => $e->getMessage()], 500);
         }
+    }
+    public function cambiarMensaje(Request $request)
+    {
+        $request->validate([
+            'mensaje' => 'required|string|max:255',
+        ]);
+
+        $nuevoTexto = $request->input('mensaje');
+
+        // Busca el primer registro de mensaje o lo crea si no existe
+        $mensaje = Mensaje::first();
+
+        // Actualiza el campo de la base de datos con el nuevo texto
+        $mensaje->texto = $nuevoTexto;
+        $mensaje->save();
+
+        return redirect()->route('admin.dashboard')->with('success', 'El mensaje ha sido actualizado.');
     }
 }

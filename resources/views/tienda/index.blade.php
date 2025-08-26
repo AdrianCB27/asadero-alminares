@@ -39,7 +39,7 @@
         </div>
 
         <!-- Contenedor principal de opciones que ocupa los 2/3 restantes -->
-        <div class="flex-1 flex items-start justify-center p-4">
+        <div class="flex-1 flex items-start justify-center p-4 mb-20">
             <div class="bg-white p-8 md:p-12 rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md">
                 <h1 class="text-xl font-bold text-gray-900 text-center mb-4">
                     Tienda
@@ -62,15 +62,16 @@
                     @endforeach
                 </ul>
                 <!-- Horario de la tienda -->
-                <div class="mt-8 pt-4 border-t border-gray-200">
-                    <h2 class="text-xl font-bold text-gray-900 text-center mb-2">Horario</h2>
-                    <p class="text-gray-600 text-center">
-                        Encargos de 18:30 a 11:30 y venta de 13:00 a 15:00
-                    </p>
-                    <p class="text-gray-600 text-center">
-                        De lunes a viernes excepto festivos
-                    </p>
-                </div>
+                @if (!$setting->mostrar_tienda)
+                    <div class="mt-8 pt-4 border-t border-gray-200">
+                        <h2 class="text-xl font-bold text-gray-900 text-center mb-2">Horario</h2>
+                        <p class="text-gray-600 text-center font-bold italic">
+                            {{ $mensaje->texto }}
+                        </p>
+                        
+                    </div>
+                @endif
+
             </div>
         </div>
         <div class="fixed bottom-0 left-0 w-full bg-white shadow-inner border-t border-gray-300 z-50">
@@ -182,168 +183,173 @@
         </div>
     </div>
 
-<!-- El Modal -->
-<div id="productModal" 
-     class="fixed inset-0 bg-gradient-to-br from-red-900/70 via-black/60 to-red-800/70 backdrop-blur-sm flex items-center justify-center z-50 hidden">
-  <div class="bg-white/90 backdrop-blur-md rounded-lg shadow-2xl p-6 w-full max-w-xs relative border border-red-800/40">
-    <span class="close-button absolute top-2 right-2 text-gray-400 hover:text-red-700 text-2xl cursor-pointer" 
-          onclick="closeModal()">&times;</span>
-    <h2 id="modal-product-name" class="text-lg font-semibold mb-2 text-center text-red-800"></h2>
-    
-    <!-- Control de cantidad con botones -->
-    <div class="flex items-center justify-center gap-2 mt-4">
-      <label for="quantity" class="block text-sm font-medium text-gray-700">Cantidad:</label>
-      <div class="flex items-center space-x-2">
-        <button onclick="decreaseQuantity()" class="bg-red-800 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold transition duration-200 hover:bg-red-700">-</button>
-        <input type="number" id="quantity" name="quantity" min="1" max="9" value="1" 
-               class="w-12 text-center rounded border-gray-300 focus:border-red-600 focus:ring-red-600 px-1 py-1" 
-               oninput="updatePrice()">
-        <button onclick="increaseQuantity()" class="bg-red-800 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold transition duration-200 hover:bg-red-700">+</button>
-      </div>
+    <!-- El Modal -->
+    <div id="productModal"
+        class="fixed inset-0 bg-gradient-to-br from-red-900/70 via-black/60 to-red-800/70 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+        <div
+            class="bg-white/90 backdrop-blur-md rounded-lg shadow-2xl p-6 w-full max-w-xs relative border border-red-800/40">
+            <span class="close-button absolute top-2 right-2 text-gray-400 hover:text-red-700 text-2xl cursor-pointer"
+                onclick="closeModal()">&times;</span>
+            <h2 id="modal-product-name" class="text-lg font-semibold mb-2 text-center text-red-800"></h2>
+
+            <!-- Control de cantidad con botones -->
+            <div class="flex items-center justify-center gap-2 mt-4">
+                <label for="quantity" class="block text-sm font-medium text-gray-700">Cantidad:</label>
+                <div class="flex items-center space-x-2">
+                    <button onclick="decreaseQuantity()"
+                        class="bg-red-800 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold transition duration-200 hover:bg-red-700">-</button>
+                    <input type="number" id="quantity" name="quantity" min="1" max="9" value="1"
+                        class="w-12 text-center rounded border-gray-300 focus:border-red-600 focus:ring-red-600 px-1 py-1"
+                        oninput="updatePrice()">
+                    <button onclick="increaseQuantity()"
+                        class="bg-red-800 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold transition duration-200 hover:bg-red-700">+</button>
+                </div>
+            </div>
+
+            <p class="mt-4 text-center">
+                Precio total: <span id="total-price" class="font-bold text-lg text-blue-600"></span>
+            </p>
+
+            <!-- Botones de acción -->
+            <div class="flex justify-between items-center mt-6 space-x-2 w-full">
+                <!-- Botón "Seguir comprando" -->
+                <button
+                    class="flex-1 bg-green-900 text-white text-sm px-4 py-2 rounded-lg font-semibold transition duration-200 hover:bg-green-800"
+                    onclick="addToCart(true)">
+                    Seguir comprando
+                </button>
+
+                <!-- Botón "Finalizar" -->
+                <button
+                    class="flex-1 bg-red-800 text-neutral-200 text-sm px-4 py-2 rounded-lg font-semibold transition duration-200 hover:bg-red-700"
+                    onclick="addToCart(false)">
+                    Finalizar
+                </button>
+            </div>
+        </div>
     </div>
-    
-    <p class="mt-4 text-center">
-      Precio total: <span id="total-price" class="font-bold text-lg text-blue-600"></span>
-    </p>
-    
-    <!-- Botones de acción -->
-    <div class="flex justify-between items-center mt-6 space-x-2 w-full">
-      <!-- Botón "Seguir comprando" -->
-      <button class="flex-1 bg-green-900 text-white text-sm px-4 py-2 rounded-lg font-semibold transition duration-200 hover:bg-green-800" 
-              onclick="addToCart(true)">
-        Seguir comprando
-      </button>
-      
-      <!-- Botón "Finalizar" -->
-      <button class="flex-1 bg-red-800 text-neutral-200 text-sm px-4 py-2 rounded-lg font-semibold transition duration-200 hover:bg-red-700" 
-              onclick="addToCart(false)">
-        Finalizar
-      </button>
-    </div>
-  </div>
-</div>
 
-<script>
-let currentProductPrice = 0; // Almacena el precio del producto actual
-let currentProductId = null; // Almacena el ID del producto actual
+    <script>
+        let currentProductPrice = 0; // Almacena el precio del producto actual
+        let currentProductId = null; // Almacena el ID del producto actual
 
-// Muestra el modal y lo inicializa con los datos del producto
-// Debe ser llamado por el enlace del producto, por ejemplo:
-// onclick="showModal('Nombre del Producto', 15.50, 101)"
-function showModal(productName, productPrice, productId) {
-  const modal = document.getElementById('productModal');
-  const modalName = document.getElementById('modal-product-name');
-  const quantityInput = document.getElementById('quantity');
-  
-  // Asignamos los datos del producto
-  modalName.textContent = productName;
-  currentProductPrice = productPrice;
-  currentProductId = productId;
-  
-  // Reseteamos la cantidad a 1 y actualizamos el precio
-  quantityInput.value = 1;
-  updatePrice();
-  
-  // Mostramos el modal
-  modal.classList.remove('hidden');
-}
+        // Muestra el modal y lo inicializa con los datos del producto
+        // Debe ser llamado por el enlace del producto, por ejemplo:
+        // onclick="showModal('Nombre del Producto', 15.50, 101)"
+        function showModal(productName, productPrice, productId) {
+            const modal = document.getElementById('productModal');
+            const modalName = document.getElementById('modal-product-name');
+            const quantityInput = document.getElementById('quantity');
 
-// Cierra el modal
-function closeModal() {
-  const modal = document.getElementById('productModal');
-  modal.classList.add('hidden');
-}
+            // Asignamos los datos del producto
+            modalName.textContent = productName;
+            currentProductPrice = productPrice;
+            currentProductId = productId;
 
-// Actualiza el precio total dinámicamente
-function updatePrice() {
-  const quantityInput = document.getElementById('quantity');
-  const totalPriceSpan = document.getElementById('total-price');
-  
-  const quantity = parseInt(quantityInput.value);
-  
-  // Verificamos que la cantidad esté dentro del rango (1-9)
-  if (isNaN(quantity) || quantity < 1 || quantity > 9) {
-    totalPriceSpan.textContent = 'Cantidad no válida';
-    return;
-  }
-  
-  const totalPrice = currentProductPrice * quantity;
-  totalPriceSpan.textContent = `${totalPrice.toFixed(2)}€`;
-}
+            // Reseteamos la cantidad a 1 y actualizamos el precio
+            quantityInput.value = 1;
+            updatePrice();
 
-// Funciones para sumar y restar cantidad
-function increaseQuantity() {
-  const quantityInput = document.getElementById('quantity');
-  let quantity = parseInt(quantityInput.value);
-  if (quantity < 9) {
-    quantityInput.value = quantity + 1;
-    updatePrice();
-  }
-}
+            // Mostramos el modal
+            modal.classList.remove('hidden');
+        }
 
-function decreaseQuantity() {
-  const quantityInput = document.getElementById('quantity');
-  let quantity = parseInt(quantityInput.value);
-  if (quantity > 1) {
-    quantityInput.value = quantity - 1;
-    updatePrice();
-  }
-}
+        // Cierra el modal
+        function closeModal() {
+            const modal = document.getElementById('productModal');
+            modal.classList.add('hidden');
+        }
 
-// Función principal para añadir al carrito
-// El parámetro 'keepShopping' es un booleano para saber qué botón se ha pulsado
-function addToCart(keepShopping) {
-  const quantity = document.getElementById('quantity').value;
-  
-  // Si necesitas el ID de usuario, es mejor pasarlo como un atributo de datos en el HTML
-  // y no confiar en {{ Auth::id() }} en el JS puro
-  
-  fetch(`/cart/add/${currentProductId}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      // Es muy importante incluir el token CSRF para peticiones POST en Laravel
-      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-    },
-    // Convertimos el objeto a una cadena JSON
-    body: JSON.stringify({
-      quantity: quantity
-    })
-  })
-  .then(response => response.json())
-  .then(data => {
-    // Si la respuesta es exitosa
-    if (data.message) {
-      alert(data.message);
-    }
-  })
-  .catch(error => {
-    // Manejo de errores
-    console.error('Error:', error);
-    alert('Ha ocurrido un error al añadir el producto a la cesta.');
-  });
+        // Actualiza el precio total dinámicamente
+        function updatePrice() {
+            const quantityInput = document.getElementById('quantity');
+            const totalPriceSpan = document.getElementById('total-price');
 
-  // Simulamos la respuesta del servidor
-  // Esta parte se ha movido dentro de la promesa fetch para que se ejecute solo al recibir la respuesta
-  // alert(`Se ha añadido ${quantity} unidad(es) al carrito.`);
+            const quantity = parseInt(quantityInput.value);
 
-  if (keepShopping) {
-    // Si se pulsa "Seguir comprando", simplemente cerramos el modal
-    closeModal();
-  } else {
-    // Si se pulsa "Finalizar", redirigimos al usuario (opcional)
-    console.log("Se ha pulsado 'Finalizar'. Redirigiendo...");
-    // window.location.href = '/checkout';
-    closeModal();
-  }
-}
+            // Verificamos que la cantidad esté dentro del rango (1-9)
+            if (isNaN(quantity) || quantity < 1 || quantity > 9) {
+                totalPriceSpan.textContent = 'Cantidad no válida';
+                return;
+            }
 
-// Opcional: Cierra el modal si se hace clic fuera de él
-window.onclick = function(event) {
-  const modal = document.getElementById('productModal');
-  if (event.target == modal) {
-    closeModal();
-  }
-}
-</script>
+            const totalPrice = currentProductPrice * quantity;
+            totalPriceSpan.textContent = `${totalPrice.toFixed(2)}€`;
+        }
+
+        // Funciones para sumar y restar cantidad
+        function increaseQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value);
+            if (quantity < 9) {
+                quantityInput.value = quantity + 1;
+                updatePrice();
+            }
+        }
+
+        function decreaseQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value);
+            if (quantity > 1) {
+                quantityInput.value = quantity - 1;
+                updatePrice();
+            }
+        }
+
+        // Función principal para añadir al carrito
+        // El parámetro 'keepShopping' es un booleano para saber qué botón se ha pulsado
+        function addToCart(keepShopping) {
+            const quantity = document.getElementById('quantity').value;
+
+            // Si necesitas el ID de usuario, es mejor pasarlo como un atributo de datos en el HTML
+            // y no confiar en {{ Auth::id() }} en el JS puro
+
+            fetch(`/cart/add/${currentProductId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Es muy importante incluir el token CSRF para peticiones POST en Laravel
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                // Convertimos el objeto a una cadena JSON
+                body: JSON.stringify({
+                    quantity: quantity
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Si la respuesta es exitosa
+                    if (data.message) {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    // Manejo de errores
+                    console.error('Error:', error);
+                    alert('Ha ocurrido un error al añadir el producto a la cesta.');
+                });
+
+            // Simulamos la respuesta del servidor
+            // Esta parte se ha movido dentro de la promesa fetch para que se ejecute solo al recibir la respuesta
+            // alert(`Se ha añadido ${quantity} unidad(es) al carrito.`);
+
+            if (keepShopping) {
+                // Si se pulsa "Seguir comprando", simplemente cerramos el modal
+                closeModal();
+            } else {
+                // Si se pulsa "Finalizar", redirigimos al usuario (opcional)
+                console.log("Se ha pulsado 'Finalizar'. Redirigiendo...");
+                // window.location.href = '/checkout';
+                closeModal();
+            }
+        }
+
+        // Opcional: Cierra el modal si se hace clic fuera de él
+        window.onclick = function (event) {
+            const modal = document.getElementById('productModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
 @endsection
