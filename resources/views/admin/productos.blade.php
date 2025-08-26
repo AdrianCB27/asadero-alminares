@@ -27,11 +27,13 @@
                     </div>
                 @else
                     <ul class="divide-y divide-gray-200">
-                        @foreach($productos as $producto)
-                            <li class="py-2 flex justify-between items-center">
-                                <span>{{ $producto->name }}</span>
-                                <span class="text-sm text-gray-500">{{ number_format($producto->price, 2) }} €</span>
-                                <span class="text-sm text-gray-500">Stock: {{ $producto->stock }}</span>
+                        @foreach ($productos as $producto)
+                            <li class="p-4 flex items-center justify-between">
+                                <div class="flex-1 pr-4">
+                                    <p class="text-lg font-semibold text-gray-900">{{ $producto->name }}</p>
+                                    <p class="text-sm text-gray-700">{{ number_format($producto->price, 2) }} € Stock:
+                                        {{ $producto->stock }}</p>
+                                </div>
                             </li>
                         @endforeach
                     </ul>
@@ -210,7 +212,7 @@
     </div>
     <script>
         function eliminarTodo() {
-           Swal .fire({
+            Swal.fire({
                 title: '¿Estás seguro?',
                 text: "Esta acción eliminará todos los productos",
                 icon: 'warning',

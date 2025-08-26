@@ -65,14 +65,14 @@
                 <ul class="divide-y divide-gray-200">
                     @foreach($productos as $producto)
                         <li class="py-2 flex items-center">
-                            <div class="ml-0 flex-1 text-xl ">
+                            <div class="ml-0 flex-1 text-[1.35rem] ">
                                 <div class="flex justify-center items-center">
                                     @if ($setting->mostrar_tienda)
-                                        <a href="#" class="font-semibold text-red-800 text-center"
+                                        <a href="#" class="font-semibold text-red-800 text-center italic"
                                             onclick="showModal('{{ $producto->name }}', {{ $producto->price }}, {{ $producto->id }})">
                                             {{ $producto->name }}
                                     </a> @else
-                                        <span class="font-semibold text-red-800 text-center">{{ $producto->name }}</span>
+                                        <span class="font-semibold text-red-800 text-center  italic">{{ $producto->name }}</span>
                                     @endif
                                 </div>
                             </div>
