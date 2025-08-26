@@ -64,8 +64,8 @@
                 </div>
                 <ul class="divide-y divide-gray-200">
                     @foreach($productos as $producto)
-                        <li class="py-4 flex items-center">
-                            <div class="ml-0 flex-1 text-2xl ">
+                        <li class="py-2 flex items-center">
+                            <div class="ml-0 flex-1 text-xl ">
                                 <div class="flex justify-center items-center">
                                     @if ($setting->mostrar_tienda)
                                         <a href="#" class="font-semibold text-red-800 text-center"
