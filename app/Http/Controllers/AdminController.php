@@ -22,7 +22,7 @@ class AdminController extends Controller
         $productos = Product::all();
 
 
-        return view('admin.dashboard', ["user" => $user, "setting" => $setting,"mensaje"=>$mensaje,"productos"=>$productos]);
+        return view('admin.dashboard', ["user" => $user, "setting" => $setting, "mensaje" => $mensaje, "productos" => $productos]);
     }
     public function cambiarTienda(Request $request)
     {
@@ -115,11 +115,14 @@ class AdminController extends Controller
 
         $nuevoTexto = $request->input('mensaje');
 
+        // Reemplaza los saltos de línea con <br>
+        $nuevoTextoConSaltos = str_replace(array("\r\n", "\r", "\n"), '<br>', $nuevoTexto);
+
         // Busca el primer registro de mensaje o lo crea si no existe
         $mensaje = Mensaje::first();
 
         // Actualiza el campo de la base de datos con el nuevo texto
-        $mensaje->texto = $nuevoTexto;
+        $mensaje->texto = $nuevoTextoConSaltos;
         $mensaje->save();
 
         return redirect()->route('admin.dashboard')->with('success', 'El mensaje ha sido actualizado.');
