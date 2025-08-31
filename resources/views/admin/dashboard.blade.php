@@ -109,7 +109,7 @@
                     </svg>
                     Tienda
                 </a>
-                <a href="" class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
+                <a href="{{ route('pedidos.index') }}" class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
                     <svg width="30px" height="30px" viewBox="0 0 1024.00 1024.00" fill="#000000" class="icon" version="1.1"
                         xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
