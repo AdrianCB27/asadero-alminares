@@ -80,9 +80,7 @@ class CartController extends Controller
         $userId = Auth::id();
         $cartItems = CartItem::with('product')->where('user_id', $userId)->get();
 
-        if ($cartItems->isEmpty()) {
-            return response()->json(['message' => 'La cesta está vacía'], 400);
-        }
+
 
         DB::beginTransaction();
 
@@ -120,7 +118,8 @@ class CartController extends Controller
 
             DB::commit();
 
-            return response()->json(['message' => 'Pedido creado con éxito', 'order' => $order]);
+            return redirect()->route('order.index')
+                ->with('success', 'Pedido realizado con éxito');
 
         } catch (\Exception $e) {
             DB::rollBack();

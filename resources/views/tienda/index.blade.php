@@ -65,7 +65,7 @@
                         <p class="text-gray-600 text-center font-bold italic">
                             {!! $mensaje->texto !!}
                         </p>
-                        
+
                     </div>
                 @endif
 
@@ -85,7 +85,8 @@
                     </svg>
                     Tienda
                 </a>
-                <a href="" class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
+                <a href="{{ route('order.index') }}"
+                    class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
                     <svg width="30px" height="30px" viewBox="0 0 1024.00 1024.00" fill="#000000" class="icon" version="1.1"
                         xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -217,11 +218,14 @@
                 </button>
 
                 <!-- Botón "Finalizar" -->
-                <button
-                    class="flex-1 bg-red-800 text-neutral-200 text-sm px-4 py-2 rounded-lg font-semibold transition duration-200 hover:bg-red-700"
-                    onclick="addToCart(false)">
-                    Finalizar
-                </button>
+                <form id="checkoutForm" action="{{ route('cart.checkout') }}" method="POST">
+                    @csrf
+                    <button type="button" onclick="finalizarPedido()"
+                        class="bg-red-800 hover:bg-red-900 text-gray-100 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 p-2">
+                        Finalizar pedido
+                    </button>
+                </form>
+
             </div>
         </div>
     </div>
@@ -298,45 +302,47 @@
         function addToCart(keepShopping) {
             const quantity = document.getElementById('quantity').value;
 
-            // Si necesitas el ID de usuario, es mejor pasarlo como un atributo de datos en el HTML
-            // y no confiar en {{ Auth::id() }} en el JS puro
-
             fetch(`/cart/add/${currentProductId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // Es muy importante incluir el token CSRF para peticiones POST en Laravel
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
-                // Convertimos el objeto a una cadena JSON
                 body: JSON.stringify({
                     quantity: quantity
                 })
             })
                 .then(response => response.json())
                 .then(data => {
-                    // Si la respuesta es exitosa
                     if (data.message) {
-                        alert(data.message);
+                        // Mensaje de éxito
+                        Toastify({
+                            text: data.message,
+                            duration: 1500, // Duración del toast en milisegundos
+                            close: false,
+                            gravity: "bottom", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            backgroundColor: "#00A86B", // Color para éxito
+                        }).showToast();
                     }
                 })
                 .catch(error => {
-                    // Manejo de errores
                     console.error('Error:', error);
-                    alert('Ha ocurrido un error al añadir el producto a la cesta.');
+                    // Mensaje de error
+                    Toastify({
+                        text: 'Ha ocurrido un error al añadir el producto a la cesta.',
+                        duration: 1500,
+                        close: true,
+                        gravity: "bottom",
+                        position: "right",
+                        backgroundColor: "#EF5350", // Color para error
+                    }).showToast();
                 });
 
-            // Simulamos la respuesta del servidor
-            // Esta parte se ha movido dentro de la promesa fetch para que se ejecute solo al recibir la respuesta
-            // alert(`Se ha añadido ${quantity} unidad(es) al carrito.`);
-
             if (keepShopping) {
-                // Si se pulsa "Seguir comprando", simplemente cerramos el modal
                 closeModal();
             } else {
-                // Si se pulsa "Finalizar", redirigimos al usuario (opcional)
                 console.log("Se ha pulsado 'Finalizar'. Redirigiendo...");
-                // window.location.href = '/checkout';
                 closeModal();
             }
         }
@@ -348,5 +354,56 @@
                 closeModal();
             }
         }
+        function finalizarPedido() {
+            const form = document.getElementById('checkoutForm');
+
+            addToCart(false).then(() => {
+                // Cuando addToCart haya terminado correctamente, enviamos el form
+                form.submit();
+            });
+        }
+
+        function addToCart(keepShopping) {
+            const quantity = document.getElementById('quantity').value;
+
+            return fetch(`/cart/add/${currentProductId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    quantity: quantity
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        Toastify({
+                            text: data.message,
+                            duration: 1500,
+                            close: false,
+                            gravity: "bottom",
+                            position: "right",
+                            backgroundColor: "#00A86B",
+                        }).showToast();
+                    }
+                    if (!keepShopping) {
+                        closeModal();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Toastify({
+                        text: 'Ha ocurrido un error al añadir el producto a la cesta.',
+                        duration: 1500,
+                        close: true,
+                        gravity: "bottom",
+                        position: "right",
+                        backgroundColor: "#EF5350",
+                    }).showToast();
+                });
+        }
+
     </script>
 @endsection

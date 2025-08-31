@@ -41,62 +41,65 @@
             <div class=" p-8 md:p-12 w-full max-w-sm sm:max-w-md h-full mb-15">
                 <div class="flex justify-center items-center mb-1">
                     <h1 class="text-xl font-bold text-gray-900 text-center mb-4">
-                        Cesta
+                        Pedidos
                     </h1>
                 </div>
-                @if ($cartItems->isNotEmpty())
-
-                    <div class="flex justify-center mb-2">
-                        <form action="{{ route('cart.checkout') }}" method="POST">
-                            @csrf
-                            <button type="submit"
-                                class="bg-red-800 hover:bg-red-900 text-gray-100 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 p-2">Finalizar
-                                pedido</button>
-                        </form>
-                    </div>
-                @endif
 
 
-                <div class="space-y-4 px-4">
-                    @if($cartItems->isEmpty())
-                        <p class="text-gray-500 text-center py-4">Tu cesta está vacía.</p>
+                <div class="space-y-6 px-4">
+                    @if($orders == null || $orders->isEmpty())
+                        <p class="text-gray-500 text-center py-4">No tienes pedidos.</p>
                     @else
-                        @foreach($cartItems as $item)
-                            <div
-                                class="bg-white rounded-xl shadow-lg p-6 border border-gray-200 transition-all duration-300 hover:shadow-xl w-full">
-                                <div class="flex items-center justify-between gap-4">
-                                    <!-- Detalles del Producto -->
-                                    <div class="flex-1">
-                                        <h2 class="text-xl font-bold text-gray-900 mb-1">{{ $item->product->name }}</h2>
-                                        <div class="text-sm text-gray-600 space-y-1">
-                                            <p>Cantidad: <span class="font-medium text-gray-800">{{ $item->quantity }}</span></p>
-                                            <p>Precio Unitario: <span
-                                                    class="font-medium text-gray-800">{{ number_format($item->product->price, 2) }}€</span>
-                                            </p>
-                                            <p>Precio Total: <span
-                                                    class="font-medium text-green-700">{{ number_format($item->product->price * $item->quantity, 2) }}€</span>
-                                            </p>
-                                        </div>
-                                    </div>
+                        @foreach ($orders as $order)
+                            <div class="space-y-3 bg-gray-50 rounded-2xl shadow-lg border border-gray-200 p-5">
+                                <h2 class="text-lg font-bold text-gray-800 mb-3 text-center">
+                                    Pedido Nº {{ $order->id }}
+                                </h2>
 
-                                    <!-- Formulario de Eliminar -->
-                                    <form action="{{ route('removeFromCart', $item->product->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="text-red-600 hover:text-red-800 transition-colors duration-200">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12">
-                                                </path>
-                                            </svg>
-                                        </button>
-                                    </form>
+                                <!-- Items del pedido -->
+                                <div class="space-y-3">
+                                    @foreach ($order->items as $item)
+                                        <div
+                                            class="bg-gradient-to-r from-white to-gray-50 rounded-xl shadow-md border border-gray-200 p-4 flex items-center justify-between hover:shadow-xl transition transform hover:-translate-y-1 hover:scale-[1.01]">
+
+                                            <!-- Izquierda: Nombre + detalles -->
+                                            <div>
+                                                <h3 class="text-base font-semibold text-gray-800 mb-1">
+                                                    {{ $item->product->name }}
+                                                </h3>
+                                                <div class="text-xs text-gray-600 space-y-0.5">
+                                                    <p> Cantidad: <span class="font-medium text-gray-800">{{ $item->quantity }}</span>
+                                                    </p>
+                                                    <p>Unidad: <span class="font-medium text-gray-800">
+                                                            {{ number_format($item->product->price, 2) }} €
+                                                        </span></p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Derecha: Precio total -->
+                                            <div class="text-right">
+                                                <p class="text-sm text-gray-500">Subtotal</p>
+                                                <p class="text-lg font-bold text-green-600">
+                                                    {{ number_format($item->product->price * $item->quantity, 2) }} €
+                                                </p>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                                <!-- Total del pedido -->
+                                <div class="mt-6 bg-white rounded-2xl shadow-md border border-gray-300 p-5 text-center">
+                                    <h3 class="text-md font-semibold text-gray-700 mb-2">Total del Pedido</h3>
+                                    <p class="text-2xl font-extrabold text-green-700 tracking-wide">
+                                        {{ number_format($order->total, 2) }} €
+                                    </p>
                                 </div>
                             </div>
                         @endforeach
                     @endif
                 </div>
+
+
             </div>
             <div class="fixed bottom-0 left-0 w-full bg-white shadow-inner border-t border-gray-300 z-50">
                 <div class="flex justify-around p-2">

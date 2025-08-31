@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mensaje;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\User;
@@ -127,4 +128,19 @@ class AdminController extends Controller
 
         return redirect()->route('admin.dashboard')->with('success', 'El mensaje ha sido actualizado.');
     }
+   public function pedidos(Request $request)
+{
+    $user = auth()->user();
+    $search = $request->input('search');
+
+    $orders = Order::when($search, function ($query) use ($search) {
+        // Filtra por el nombre del usuario relacionado
+        $query->whereHas('user', function ($subQuery) use ($search) {
+            $subQuery->where('name', 'like', "%{$search}%");
+        });
+    })
+    ->get();
+
+    return view('admin.pedidos', ["user" => $user, "orders" => $orders]);
+}
 }
