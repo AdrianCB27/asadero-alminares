@@ -13,7 +13,7 @@ class TiendaController extends Controller
         $user = auth()->user();
         $setting=Setting::first();
         $mensaje=Mensaje::first();
-        $productos=Product::all();
+        $productos=Product::all()->sortBy('name');
         return view('tienda.index',["user"=>$user,"setting"=>$setting,"productos"=>$productos, "mensaje"=>$mensaje]); // Asegúrate de que la vista tienda.index exista
 
     }

@@ -80,7 +80,7 @@ class AdminController extends Controller
     {
         $user = auth()->user();
 
-        $productos = Product::all();
+        $productos = Product::all()->sortBy('name');
         return view('admin.productos', ["user" => $user, "productos" => $productos]);
     }
     public function storeProducto(Request $request)
