@@ -1,39 +1,87 @@
 @extends("plantilla")
 @section("contenido")
-    <div class="relative flex flex-col h-screen font-inter bg-neutral-200 mb-18">
+    <div class="relative flex flex-col h-screen font-inter bg-neutral-200">
         <div class="flex-1 flex items-start justify-center p-4 h-screen">
-            <div class=" p-8 md:p-12 w-full max-w-sm sm:max-w-md flex flex-col">
+            <div class=" p-4 md:p-12 w-full max-w-sm sm:max-w-md flex flex-col">
                 <p class="text-xl font-bold text-gray-900 text-center mb-4">
-                    Listado de Clientes
+                    Listado de pedidos completados
                 </p>
 
-                <div class="mb-4">
-                    <form action="{{ route('clientes.index') }}" method="GET" class="mb-4">
-                        <input type="text" name="search" placeholder="Buscar clientes..." value="{{ request('search') }}"
+                <div class="flex mb-4 justify-between items-center">
+                    <form action="{{ route('pedidos.index') }}" method="GET">
+                        <input type="text" name="search" placeholder="Buscar pedidos..." value="{{ request('search') }}"
                             class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </form>
+                    <a href="{{ route('pedidos.index') }}" class="bg-red-800 px-4 py-2 border rounded-md shadow-sm"><svg
+                            width="30px" height="30px" viewBox="0 0 1024 1024" fill="#ffffff" class="icon" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M790.811 120.124h-56.047V64.133h-55.99v55.99H342.837v-55.99h-55.989v55.99h-56.047c-61.556 0-111.921 50.366-111.921 111.92v616.004c0 61.555 50.364 111.919 111.92 111.919h560.011c61.556 0 111.921-50.364 111.921-111.92V232.044c0-61.554-50.365-111.92-111.921-111.92z m-560.01 55.99h56.047v55.987h55.99v-55.987h335.936v55.987h55.99v-55.987h56.047c30.841 0 55.932 25.09 55.932 55.93V344.08H174.869V232.043c0-30.84 25.09-55.929 55.932-55.929z m560.01 727.862h-560.01c-30.842 0-55.932-25.09-55.932-55.93V400.07h671.873v447.978c0 30.839-25.09 55.928-55.931 55.928z"
+                                    fill=""></path>
+                                <path
+                                    d="M286.848 512.048h447.916v55.99H286.848v-55.99zM286.848 681.766h447.916v55.99H286.848v-55.99z"
+                                    fill=""></path>
+                            </g>
+                        </svg></a>
                 </div>
 
-                <div class="flex-1 overflow-y-auto text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
-                    <ul class="divide-y divide-gray-200">
-                        @foreach ($clientes as $cliente)
-                            <li class="p-4 flex items-center justify-between">
-                                <div class="flex-1 pr-4">
-                                    <p class="text-lg font-semibold text-gray-900">{{ $cliente->name }}</p>
-                                    <p class="text-sm text-gray-500">{{ $cliente->phone_number }}</p>
-                                </div>
-                                <div>
-                                    <a class="text-red-600" href="{{ route('clientes.eliminar', $cliente->id) }}" onclick="confirmarEliminar(event)">
-                                       <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6" stroke="#ad0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-                                    </a>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
+                <div class="flex flex-col gap-2 mb-18 ">
+                    @forelse ($orders as $order)
+                        <div
+                            class="bg-white shadow-md rounded-xl p-6 transition-transform transform hover:scale-105 hover:shadow-xl duration-300 ease-in-out border border-gray-200">
+                            <div class="flex justify-between items-center mb-4 pb-4 border-b border-gray-200 w-full">
+                                <div class="flex justify-between items-center w-full">
+                                    <h3 class="text-xl font-bold text-gray-800">
+                                        {{ $order->user->name }}
+                                    </h3>
 
-                    @if ($clientes->isEmpty())
-                        <p class="p-4 text-center text-gray-500">No se encontraron clientes.</p>
-                    @endif
+                                    <span class="flex items-center gap-1 text-xl font-bold text-gray-800">
+                                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                            stroke="#db0000">
+                                            <path
+                                                d="M3 5.5C3 14.0604 9.93959 21 18.5 21C18.8862 21 19.2691 20.9859 19.6483 20.9581C20.0834 20.9262 20.3009 20.9103 20.499 20.7963C20.663 20.7019 20.8185 20.5345 20.9007 20.364C21 20.1582 21 19.9181 21 19.438V16.6207C21 16.2169 21 16.015 20.9335 15.842C20.8749 15.6891 20.7795 15.553 20.6559 15.4456C20.516 15.324 20.3262 15.255 19.9468 15.117L16.74 13.9509C16.2985 13.7904 16.0777 13.7101 15.8683 13.7237C15.6836 13.7357 15.5059 13.7988 15.3549 13.9058C15.1837 14.0271 15.0629 14.2285 14.8212 14.6314L14 16C11.3501 14.7999 9.2019 12.6489 8 10L9.36863 9.17882C9.77145 8.93713 9.97286 8.81628 10.0942 8.64506C10.2012 8.49408 10.2643 8.31637 10.2763 8.1317C10.2899 7.92227 10.2096 7.70153 10.0491 7.26005L8.88299 4.05321C8.745 3.67376 8.67601 3.48403 8.55442 3.3441C8.44701 3.22049 8.31089 3.12515 8.15802 3.06645C7.98496 3 7.78308 3 7.37932 3H4.56201C4.08188 3 3.84181 3 3.63598 3.09925C3.4655 3.18146 3.29814 3.33701 3.2037 3.50103C3.08968 3.69907 3.07375 3.91662 3.04189 4.35173C3.01413 4.73086 3 5.11378 3 5.5Z"
+                                                stroke="#a30000" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                            </path>
+                                        </svg>
+                                        {{ $order->phone_number }}
+                                    </span>
+                                </div>
+                            </div>
+
+
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div class="flex flex-col">
+                                </div>
+                                <div class="flex flex-col col-span-1 md:col-span-2">
+                                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Productos</h4>
+                                    <ul class="divide-y divide-gray-100">
+                                        @foreach ($order->items as $item)
+                                            <li class="flex justify-between items-center py-2">
+                                                <span class="text-gray-600 font-medium text-sm">{{ $item->product->name }}</span>
+                                                <span class="text-gray-500 text-sm">x{{ $item->quantity }}</span>
+                                                <span class="text-gray-700 font-semibold">
+                                                    {{ number_format($item->product->price, 2) }}€</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 pt-4 border-t border-gray-200 flex justify-end items-center gap-2">
+                                <span class="text-xl font-bold text-gray-900">
+                                    Total: <span class="text-indigo-600">{{ number_format($order->total, 2) }}€</span>
+                                </span>
+                            </div>
+                        </div>
+                    @empty
+                        <p class="text-center text-gray-500 text-lg p-8 bg-white shadow-md rounded-xl">No se encontraron
+                            pedidos.</p>
+                    @endforelse
                 </div>
             </div>
         </div>
@@ -55,7 +103,8 @@
                 </svg>
                 Tienda
             </a>
-            <a href="{{ route('pedidos.index') }}" class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
+            <a href="{{ route('pedidos.index') }}"
+                class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
                 <svg width="30px" height="30px" viewBox="0 0 1024.00 1024.00" fill="#000000" class="icon" version="1.1"
                     xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -164,32 +213,4 @@
     </div>
 
     </div>
-    <script>
-        // Se pasa el evento 'e' como argumento
-        function confirmarEliminar(e) {
-            // Detiene la acción por defecto del enlace (la navegación)
-            e.preventDefault();
-
-            // Obtiene la URL del enlace que fue clickeado
-            const url = e.currentTarget.href;
-
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: "Esta acción eliminará el cliente",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#b91c1c',  // rojo oscuro
-                cancelButtonColor: '#6b7280',  // gris neutro
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Si el usuario confirma, navega a la URL de eliminación
-                    window.location.href = url;
-                }
-            });
-        }
-    </script>
-
-
 @endsection

@@ -35,9 +35,14 @@ Route::get('/admin/clientes', [AdminController::class, 'clientes'])->middleware(
 Route::get('/admin/clientes/{id}/eliminar', [AdminController::class, 'eliminarCliente'])->middleware("auth")->name('clientes.eliminar');
 Route::get('/admin/productos', [AdminController::class, 'productos'])->middleware("auth")->name('productos.index');
 Route::get('/admin/pedidos', [AdminController::class, 'pedidos'])->middleware("auth")->name('pedidos.index');
+Route::get('/admin/pedidosCompletados', [AdminController::class, 'pedidosCompletados'])->middleware("auth")->name('pedidosCompletados.index');
+Route::post('/admin/pedidos/{id}/completar', [AdminController::class, 'marcarPedidoCompletado'])->middleware("auth")->name('pedidos.completar');
+
 
 Route::post('/admin/productos', [AdminController::class, 'storeProducto'])->middleware("auth")->name('productos.store');
 Route::delete('/admin/productos', [AdminController::class, 'deleteProductos'])->middleware("auth")->name('productos.delete');
+Route::delete('/admin/producto/{id}', [AdminController::class, 'deleteProducto'])->middleware("auth")->name('productos.deleteUno');
+
 
 Route::post('/admin/cambiar-tienda', [AdminController::class, 'cambiarTienda'])->middleware("auth")->name('cambiarTienda');
 Route::post('/admin/cambiarMensaje', [AdminController::class, 'cambiarMensaje'])->middleware("auth")->name('cambiarMensaje');

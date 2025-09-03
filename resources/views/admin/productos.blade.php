@@ -1,6 +1,6 @@
 @extends("plantilla")
 @section("contenido")
-    <div class="relative flex flex-col h-screen font-inter bg-neutral-200">
+    <div class="relative flex flex-col h-screen font-inter bg-neutral-200 mb-18">
         <div class="flex-1 flex items-start justify-center p-4 h-screen">
             <div class="bg-neutral-100 p-8 md:p-12 rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md flex flex-col">
                 <p class="text-xl font-bold text-gray-900 text-center mb-4">
@@ -30,10 +30,34 @@
                         @foreach ($productos as $producto)
                             <li class="p-4 flex items-center justify-between">
                                 <div class="flex-1 pr-4">
-                                    <p class="text-lg font-semibold text-gray-900">{{ $producto->name }}</p>
-                                    <p class="text-sm text-gray-700">{{ number_format($producto->price, 2) }} € Stock:
-                                       <strong> {{ $producto->stock }}</strong></p>
+                                    <!-- Fila 1: Nombre -->
+                                    <p class="text-lg font-semibold text-gray-900">
+                                        {{ $producto->name }}
+                                    </p>
+
+                                    <!-- Fila 2: Stock + Botón -->
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-sm text-gray-700">
+                                            {{ number_format($producto->price, 2) }} €
+                                            Stock: <strong>{{ $producto->stock }} / {{ $producto->stock_maximo }}</strong>
+                                        </p>
+
+                                        <form method="post" action="{{ route('productos.deleteUno', $producto->id) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="ml-4">
+                                                <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg" stroke="#ff0000">
+                                                    <path
+                                                        d="M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6"
+                                                        stroke="#ad0000" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
+
                             </li>
                         @endforeach
                     </ul>
@@ -101,7 +125,8 @@
                     </svg>
                     Tienda
                 </a>
-                <a href="{{ route('pedidos.index') }}" class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
+                <a href="{{ route('pedidos.index') }}"
+                    class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
                     <svg width="30px" height="30px" viewBox="0 0 1024.00 1024.00" fill="#000000" class="icon" version="1.1"
                         xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>

@@ -94,6 +94,7 @@ class AdminController extends Controller
         $producto->name = $request->input('name');
         $producto->price = $request->input('price');
         $producto->stock = $request->input('stock');
+        $producto->stock_maximo = $request->input('stock');
         $producto->save();
 
         return redirect()->route('productos.index')->with('success', 'Producto creado exitosamente.');
@@ -102,10 +103,22 @@ class AdminController extends Controller
     {
         try {
             Product::query()->delete();
+            Order::query()->delete();
             return response()->json(['message' => 'Se han eliminado todos los productos correctamente.'], 200);
         } catch (\Throwable $e) {
             Log::error($e);
             return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+    public function deleteProducto($id)
+    {
+        try {
+            $producto = Product::findOrFail($id);
+            $producto->delete();
+            return redirect()->route('productos.index')->with('success', 'Producto eliminado exitosamente.');
+        } catch (\Exception $e) {
+            Log::error("Error al eliminar producto: " . $e->getMessage());
+            return redirect()->route('productos.index')->with('error', 'No se pudo eliminar el producto.');
         }
     }
     public function cambiarMensaje(Request $request)
@@ -128,19 +141,50 @@ class AdminController extends Controller
 
         return redirect()->route('admin.dashboard')->with('success', 'El mensaje ha sido actualizado.');
     }
-   public function pedidos(Request $request)
-{
-    $user = auth()->user();
-    $search = $request->input('search');
+    public function pedidos(Request $request)
+    {
+        $user = auth()->user();
+        $search = $request->input('search');
 
-    $orders = Order::when($search, function ($query) use ($search) {
-        // Filtra por el nombre del usuario relacionado
-        $query->whereHas('user', function ($subQuery) use ($search) {
-            $subQuery->where('name', 'like', "%{$search}%");
-        });
-    })
-    ->get();
+        $query = Order::where('completed', false);
 
-    return view('admin.pedidos', ["user" => $user, "orders" => $orders]);
-}
+        if ($search) {
+            $query->whereHas('user', function ($subQuery) use ($search) {
+                $subQuery->where('name', 'like', "%{$search}%");
+            });
+        }
+
+        $orders = $query->get();
+
+        return view('admin.pedidos', ["user" => $user, "orders" => $orders]);
+    }
+    public function pedidosCompletados(Request $request)
+    {
+        $user = auth()->user();
+        $search = $request->input('search');
+
+        $query = Order::where('completed', true);
+
+        if ($search) {
+            $query->whereHas('user', function ($subQuery) use ($search) {
+                $subQuery->where('name', 'like', "%{$search}%");
+            });
+        }
+
+        $orders = $query->get();
+
+        return view('admin.pedidosCompletados', ["user" => $user, "orders" => $orders]);
+    }
+    public function marcarPedidoCompletado($id)
+    {
+        try {
+            $order = Order::findOrFail($id);
+            $order->completed = true;
+            $order->save();
+            return redirect()->route('pedidos.index')->with('success', 'Pedido marcado como completado.');
+        } catch (\Exception $e) {
+            Log::error("Error al marcar pedido como completado: " . $e->getMessage());
+            return redirect()->route('pedidos.index')->with('error', 'No se pudo marcar el pedido como completado.');
+        }
+    }
 }

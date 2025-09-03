@@ -45,34 +45,38 @@
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input id="tienda-checkbox" type="checkbox" class="sr-only peer" {{ $setting->mostrar_tienda ? 'checked' : '' }}>
                         <div class="group peer ring-0 bg-rose-400 rounded-full outline-none duration-300 after:duration-300 w-16 h-8 shadow-md
-                                    peer-checked:bg-emerald-500 peer-focus:outline-none 
-                                    after:content-['✖️'] after:rounded-full after:absolute after:bg-gray-50 after:outline-none 
-                                    after:h-6 after:w-6 after:top-1 after:left-1 
-                                    after:flex after:justify-center after:items-center 
-                                    peer-checked:after:translate-x-8 peer-checked:after:content-['✔️'] 
-                                    peer-hover:after:scale-95">
+                                            peer-checked:bg-emerald-500 peer-focus:outline-none 
+                                            after:content-['✖️'] after:rounded-full after:absolute after:bg-gray-50 after:outline-none 
+                                            after:h-6 after:w-6 after:top-1 after:left-1 
+                                            after:flex after:justify-center after:items-center 
+                                            peer-checked:after:translate-x-8 peer-checked:after:content-['✔️'] 
+                                            peer-hover:after:scale-95">
                         </div>
                     </label>
                 </div>
 
-                <div class="bg-blue-50 p-4 rounded-lg text-center text-blue-800 border border-blue-200">
-                    <p class="text-sm">@if ($setting->mostrar_tienda)
-                        La tienda está activa.
-                    @else
-                            La tienda está inactiva.
-                        @endif</p>
-                </div>
+                <!-- <div class="bg-blue-50 p-4 rounded-lg text-center text-blue-800 border border-blue-200">
+                        <p class="text-sm">@if ($setting->mostrar_tienda)
+                            La tienda está activa.
+                        @else
+                                La tienda está inactiva.
+                            @endif</p>
+                    </div> -->
                 <ul class="divide-y divide-gray-200">
                     @foreach($productos as $producto)
                         <li class="py-2 flex items-center">
                             <div class="ml-0 flex-1 text-[1.35rem] ">
                                 <div class="flex justify-center items-center">
-                                    @if ($setting->mostrar_tienda)
+                                    @if ($setting->mostrar_tienda && $producto->stock > 0)
                                         <a href="#" class="font-semibold text-red-800 text-center italic"
                                             onclick="showModal('{{ $producto->name }}', {{ $producto->price }}, {{ $producto->id }})">
                                             {{ $producto->name }}
-                                    </a> @else
-                                        <span class="font-semibold text-red-800 text-center  italic">{{ $producto->name }}</span>
+                                    </a>
+                                     @elseif ($producto->stock <= 0)
+                                        <span class="font-semibold text-gray-400 text-center italic">{{ $producto->name }}
+                                            (Agotado)</span>
+                                    @else
+                                        <span class="font-semibold text-red-800 text-center italic">{{ $producto->name }}</span>
                                     @endif
                                 </div>
                             </div>
@@ -85,7 +89,7 @@
                 <form action="{{ route('cambiarMensaje') }}" method="post">
                     @csrf
                     <textarea name="mensaje" id="mensaje" rows="6"
-          class="w-full p-4 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-red-800 transition duration-300 ease-in-out placeholder:text-gray-400">{!! $mensaje->texto !!}</textarea>
+                        class="w-full p-4 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-red-800 transition duration-300 ease-in-out placeholder:text-gray-400">{!! $mensaje->texto !!}</textarea>
 
                     <input type="submit" value="Cambiar"
                         class="mt-4 w-full bg-red-800 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
@@ -109,7 +113,8 @@
                     </svg>
                     Tienda
                 </a>
-                <a href="{{ route('pedidos.index') }}" class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
+                <a href="{{ route('pedidos.index') }}"
+                    class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
                     <svg width="30px" height="30px" viewBox="0 0 1024.00 1024.00" fill="#000000" class="icon" version="1.1"
                         xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>

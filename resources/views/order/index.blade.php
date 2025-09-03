@@ -52,10 +52,6 @@
                     @else
                         @foreach ($orders as $order)
                             <div class="space-y-3 bg-gray-50 rounded-2xl shadow-lg border border-gray-200 p-5">
-                                <h2 class="text-lg font-bold text-gray-800 mb-3 text-center">
-                                    Pedido Nº {{ $order->id }}
-                                </h2>
-
                                 <!-- Items del pedido -->
                                 <div class="space-y-3">
                                     @foreach ($order->items as $item)

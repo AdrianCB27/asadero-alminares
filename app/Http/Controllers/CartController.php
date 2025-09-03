@@ -75,12 +75,21 @@ class CartController extends Controller
     /**
      * Confirmar compra (checkout)
      */
+/**
+     * Confirmar compra (checkout)
+     */
     public function checkout(Request $request)
     {
         $userId = Auth::id();
         $cartItems = CartItem::with('product')->where('user_id', $userId)->get();
 
-
+        // Verificación de stock previa para una respuesta más rápida al usuario.
+        foreach ($cartItems as $item) {
+            // Asegura que no se intente comprar más de lo que hay en stock.
+            if ($item->quantity > $item->product->stock) {
+                return redirect()->back()->with('error', 'No hay suficiente stock para el producto ' . $item->product->name . '. Stock disponible: ' . $item->product->stock);
+            }
+        }
 
         DB::beginTransaction();
 
@@ -95,6 +104,20 @@ class CartController extends Controller
             $total = 0;
 
             foreach ($cartItems as $item) {
+                // Verificación de stock atómica y decremento dentro de la transacción.
+                // Usamos la cantidad del carrito para el decremento, y si la operación falla
+                // (por stock insuficiente), la función decrement() devuelve 0.
+                $updatedRows = Product::where('id', $item->product_id)
+                    ->where('stock', '>=', $item->quantity) // Solo decrementar si el stock es suficiente
+                    ->decrement('stock', $item->quantity);
+
+                // Si no se actualizó ninguna fila, significa que el stock se agotó
+                // justo antes de que lo intentáramos. Lanzamos una excepción para
+                // deshacer la transacción.
+                if ($updatedRows === 0) {
+                    throw new \Exception('No hay suficiente stock para el producto ' . $item->product->name . '.');
+                }
+
                 $subtotal = $item->quantity * $item->product->price;
                 $total += $subtotal;
 
@@ -105,9 +128,6 @@ class CartController extends Controller
                     'quantity' => $item->quantity,
                     'unit_price' => $item->product->price,
                 ]);
-
-                // Reducir stock del producto
-                $item->product->decrement('stock', $item->quantity);
             }
 
             // Actualizar total del pedido
@@ -118,12 +138,10 @@ class CartController extends Controller
 
             DB::commit();
 
-            return redirect()->route('order.index')
-                ->with('success', 'Pedido realizado con éxito');
-
+            return redirect()->route('order.index')->with('success', 'Pedido realizado con éxito');
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'Error al procesar el pedido', 'error' => $e->getMessage()], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

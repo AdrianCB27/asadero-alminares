@@ -41,16 +41,53 @@
         <!-- Contenedor principal de opciones que ocupa los 2/3 restantes -->
         <div class="flex-1 flex items-start justify-center p-4 mb-20">
             <div class="bg-white p-8 md:p-12 rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md">
+                <!-- Mensajes flash -->
+                @if (session('error'))
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                        <strong class="font-bold">¡Error!</strong>
+                        <span class="block sm:inline">{{ session('error') }}</span>
+                    </div>
+                @endif
+
+                @if (session('success'))
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+                        role="alert">
+                        <strong class="font-bold">¡Éxito!</strong>
+                        <span class="block sm:inline">{{ session('success') }}</span>
+                    </div>
+                @endif
+
+                @if (!$setting->mostrar_tienda)
+                    <div class="bg-blue-50 p-4 rounded-lg text-center text-blue-800 border border-blue-200">
+
+                        La tienda está inactiva.
+                        </p>
+                    </div>
+                @endif
+
+                <!-- Horario de la tienda -->
+                @if (!$setting->mostrar_tienda)
+                    <div class="mt-8 pt-4 border-t border-gray-200">
+                        <h2 class="text-xl font-bold text-gray-900 text-center mb-2">Horario</h2>
+                        <p class="text-amber-500 text-center font-bold italic">
+                            {!! $mensaje->texto !!}
+                        </p>
+
+                    </div>
+                @endif
                 <ul class="divide-y divide-gray-200">
                     @foreach($productos as $producto)
                         <li class="py-2 flex items-center">
                             <div class="ml-0 flex-1 text-[1.35rem] ">
                                 <div class="flex justify-center items-center">
-                                    @if ($setting->mostrar_tienda)
+                                    @if ($setting->mostrar_tienda && $producto->stock > 0)
                                         <a href="#" class="font-semibold text-red-800 text-center italic"
                                             onclick="showModal('{{ $producto->name }}', {{ $producto->price }}, {{ $producto->id }})">
                                             {{ $producto->name }}
-                                    </a> @else
+                                    </a> @elseif ($setting->mostrar_tienda && $producto->stock <= 0)
+                                        <span class="font-semibold text-gray-400 text-center italic">{{ $producto->name }}
+                                            (Agotado)</span>
+                                    @else
                                         <span class="font-semibold text-red-800 text-center italic">{{ $producto->name }}</span>
                                     @endif
                                 </div>
@@ -58,19 +95,11 @@
                         </li>
                     @endforeach
                 </ul>
-                <!-- Horario de la tienda -->
-                @if (!$setting->mostrar_tienda)
-                    <div class="mt-8 pt-4 border-t border-gray-200">
-                        <h2 class="text-xl font-bold text-gray-900 text-center mb-2">Horario</h2>
-                        <p class="text-gray-600 text-center font-bold italic">
-                            {!! $mensaje->texto !!}
-                        </p>
 
-                    </div>
-                @endif
 
             </div>
         </div>
+
         <div class="fixed bottom-0 left-0 w-full bg-white shadow-inner border-t border-gray-300 z-50">
             <div class="flex justify-around p-2">
                 <a href="" class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
@@ -218,7 +247,7 @@
                 </button>
 
                 <!-- Botón "Finalizar" -->
-                <form id="checkoutForm" action="{{ route('cart.checkout') }}" method="POST">
+                <form id="checkoutForm" action="{{ route('cart.view') }}" method="get">
                     @csrf
                     <button type="button" onclick="finalizarPedido()"
                         class="bg-red-800 hover:bg-red-900 text-gray-100 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 p-2">
@@ -297,57 +326,6 @@
             }
         }
 
-        // Función principal para añadir al carrito
-        // El parámetro 'keepShopping' es un booleano para saber qué botón se ha pulsado
-        function addToCart(keepShopping) {
-            const quantity = document.getElementById('quantity').value;
-
-            fetch(`/cart/add/${currentProductId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({
-                    quantity: quantity
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message) {
-                        // Mensaje de éxito
-                        Toastify({
-                            text: data.message,
-                            duration: 1500, // Duración del toast en milisegundos
-                            close: false,
-                            gravity: "bottom", // `top` or `bottom`
-                            position: "right", // `left`, `center` or `right`
-                            backgroundColor: "#00A86B", // Color para éxito
-                        }).showToast();
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    // Mensaje de error
-                    Toastify({
-                        text: 'Ha ocurrido un error al añadir el producto a la cesta.',
-                        duration: 1500,
-                        close: true,
-                        gravity: "bottom",
-                        position: "right",
-                        backgroundColor: "#EF5350", // Color para error
-                    }).showToast();
-                });
-
-            if (keepShopping) {
-                closeModal();
-            } else {
-                console.log("Se ha pulsado 'Finalizar'. Redirigiendo...");
-                closeModal();
-            }
-        }
-
-        // Opcional: Cierra el modal si se hace clic fuera de él
         window.onclick = function (event) {
             const modal = document.getElementById('productModal');
             if (event.target == modal) {
@@ -358,7 +336,6 @@
             const form = document.getElementById('checkoutForm');
 
             addToCart(false).then(() => {
-                // Cuando addToCart haya terminado correctamente, enviamos el form
                 form.submit();
             });
         }
@@ -388,9 +365,8 @@
                             backgroundColor: "#00A86B",
                         }).showToast();
                     }
-                    if (!keepShopping) {
-                        closeModal();
-                    }
+                    closeModal();
+
                 })
                 .catch(error => {
                     console.error('Error:', error);
