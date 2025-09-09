@@ -80,13 +80,11 @@
                         <li class="py-2 flex items-center">
                             <div class="ml-0 flex-1 text-[1.35rem] ">
                                 <div class="flex justify-center items-center">
-                                    @if ($setting->mostrar_tienda && $producto->stock > 0)
+                                    @if ($setting->mostrar_tienda)
                                         <a href="#" class="font-semibold text-red-800 text-center italic"
-                                            onclick="showModal('{{ $producto->name }}', {{ $producto->price }}, {{ $producto->id }})">
+                                            onclick="showModal('{{ $producto->name }}', {{ $producto->price }}, {{ $producto->id }}, {{ $producto->stock }})">
                                             {{ $producto->name }}
-                                    </a> @elseif ($setting->mostrar_tienda && $producto->stock <= 0)
-                                        <span class="font-semibold text-gray-400 text-center italic">{{ $producto->name }}
-                                            (Agotado)</span>
+                                        </a>
                                     @else
                                         <span class="font-semibold text-red-800 text-center italic">{{ $producto->name }}</span>
                                     @endif
@@ -259,127 +257,143 @@
         </div>
     </div>
 
-    <script>
-        let currentProductPrice = 0; // Almacena el precio del producto actual
-        let currentProductId = null; // Almacena el ID del producto actual
+   <script>
+    let currentProductPrice = 0; // precio del producto actual
+    let currentProductId = null; // id del producto actual
+    let currentMaxQuantity = 9;  // límite dinámico según stock
 
-        // Muestra el modal y lo inicializa con los datos del producto
-        // Debe ser llamado por el enlace del producto, por ejemplo:
-        // onclick="showModal('Nombre del Producto', 15.50, 101)"
-        function showModal(productName, productPrice, productId) {
-            const modal = document.getElementById('productModal');
-            const modalName = document.getElementById('modal-product-name');
-            const quantityInput = document.getElementById('quantity');
+    // Muestra el modal y lo inicializa con los datos del producto
+    // Ahora recibe también el stock
+    function showModal(productName, productPrice, productId, productStock) {
+        const modal = document.getElementById('productModal');
+        const modalName = document.getElementById('modal-product-name');
+        const quantityInput = document.getElementById('quantity');
 
-            // Asignamos los datos del producto
-            modalName.textContent = productName;
-            currentProductPrice = productPrice;
-            currentProductId = productId;
+        // Guardamos datos del producto
+        modalName.textContent = productName;
+        currentProductPrice = productPrice;
+        currentProductId = productId;
+        if(productStock ==0)modalName.textContent += " (Agotado)";
 
-            // Reseteamos la cantidad a 1 y actualizamos el precio
-            quantityInput.value = 1;
+        // Calculamos el máximo permitido (mínimo entre stock y 9)
+        currentMaxQuantity = productStock < 9 ? productStock : 9;
+
+        // Reseteamos cantidad a 1 y actualizamos límite del input
+        quantityInput.value = 1;
+        quantityInput.setAttribute("max", currentMaxQuantity);
+
+        // Actualizamos precio
+        updatePrice();
+
+        // Mostramos modal
+        modal.classList.remove('hidden');
+    }
+
+    // Cierra el modal
+    function closeModal() {
+        const modal = document.getElementById('productModal');
+        modal.classList.add('hidden');
+    }
+
+    // Actualiza precio total
+    function updatePrice() {
+        const quantityInput = document.getElementById('quantity');
+        const totalPriceSpan = document.getElementById('total-price');
+
+        let quantity = parseInt(quantityInput.value);
+
+        // Validación contra el máximo dinámico
+        if (isNaN(quantity) || quantity < 1) {
+            quantity = 1;
+        }
+        if (quantity > currentMaxQuantity) {
+            quantity = currentMaxQuantity;
+        }
+
+        // Corrige el input si el usuario mete un número inválido
+        quantityInput.value = quantity;
+
+        const totalPrice = currentProductPrice * quantity;
+        totalPriceSpan.textContent = `${totalPrice.toFixed(2)}€`;
+    }
+
+    // Funciones para sumar/restar cantidad respetando stock
+    function increaseQuantity() {
+        const quantityInput = document.getElementById('quantity');
+        let quantity = parseInt(quantityInput.value);
+        if (quantity < currentMaxQuantity) {
+            quantityInput.value = quantity + 1;
             updatePrice();
-
-            // Mostramos el modal
-            modal.classList.remove('hidden');
         }
+    }
 
-        // Cierra el modal
-        function closeModal() {
-            const modal = document.getElementById('productModal');
-            modal.classList.add('hidden');
+    function decreaseQuantity() {
+        const quantityInput = document.getElementById('quantity');
+        let quantity = parseInt(quantityInput.value);
+        if (quantity > 1) {
+            quantityInput.value = quantity - 1;
+            updatePrice();
         }
+    }
 
-        // Actualiza el precio total dinámicamente
-        function updatePrice() {
-            const quantityInput = document.getElementById('quantity');
-            const totalPriceSpan = document.getElementById('total-price');
-
-            const quantity = parseInt(quantityInput.value);
-
-            // Verificamos que la cantidad esté dentro del rango (1-9)
-            if (isNaN(quantity) || quantity < 1 || quantity > 9) {
-                totalPriceSpan.textContent = 'Cantidad no válida';
-                return;
-            }
-
-            const totalPrice = currentProductPrice * quantity;
-            totalPriceSpan.textContent = `${totalPrice.toFixed(2)}€`;
+    // Cerrar modal clicando fuera
+    window.onclick = function (event) {
+        const modal = document.getElementById('productModal');
+        if (event.target == modal) {
+            closeModal();
         }
+    }
 
-        // Funciones para sumar y restar cantidad
-        function increaseQuantity() {
-            const quantityInput = document.getElementById('quantity');
-            let quantity = parseInt(quantityInput.value);
-            if (quantity < 9) {
-                quantityInput.value = quantity + 1;
-                updatePrice();
-            }
-        }
+    // Finalizar pedido
+    function finalizarPedido() {
+        const form = document.getElementById('checkoutForm');
 
-        function decreaseQuantity() {
-            const quantityInput = document.getElementById('quantity');
-            let quantity = parseInt(quantityInput.value);
-            if (quantity > 1) {
-                quantityInput.value = quantity - 1;
-                updatePrice();
-            }
-        }
+        addToCart(false).then(() => {
+            form.submit();
+        });
+    }
 
-        window.onclick = function (event) {
-            const modal = document.getElementById('productModal');
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
-        function finalizarPedido() {
-            const form = document.getElementById('checkoutForm');
+    // Añadir al carrito
+    function addToCart(keepShopping) {
+        const quantity = document.getElementById('quantity').value;
 
-            addToCart(false).then(() => {
-                form.submit();
-            });
-        }
-
-        function addToCart(keepShopping) {
-            const quantity = document.getElementById('quantity').value;
-
-            return fetch(`/cart/add/${currentProductId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({
-                    quantity: quantity
-                })
+        return fetch(`/cart/add/${currentProductId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                quantity: quantity
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message) {
-                        Toastify({
-                            text: data.message,
-                            duration: 1500,
-                            close: false,
-                            gravity: "bottom",
-                            position: "right",
-                            backgroundColor: "#00A86B",
-                        }).showToast();
-                    }
-                    closeModal();
-
-                })
-                .catch(error => {
-                    console.error('Error:', error);
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
                     Toastify({
-                        text: 'Ha ocurrido un error al añadir el producto a la cesta.',
+                        text: data.message,
                         duration: 1500,
-                        close: true,
+                        close: false,
                         gravity: "bottom",
                         position: "right",
-                        backgroundColor: "#EF5350",
+                        backgroundColor: "#00A86B",
                     }).showToast();
-                });
-        }
+                }
+                closeModal();
 
-    </script>
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Toastify({
+                    text: 'Ha ocurrido un error al añadir el producto a la cesta.',
+                    duration: 1500,
+                    close: true,
+                    gravity: "bottom",
+                    position: "right",
+                    backgroundColor: "#EF5350",
+                }).showToast();
+            });
+    }
+</script>
+
 @endsection
