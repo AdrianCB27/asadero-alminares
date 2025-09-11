@@ -5,7 +5,7 @@
     <div class="relative flex flex-col min-h-screen font-inter bg-neutral-200">
         <!-- Contenedor de la imagen que ocupa 1/3 de la pantalla -->
         <div class="w-full h-1/3">
-            <img src="{{ asset("fotoInicio.jpg") }}" alt="Imagen de inicio de la web" class="w-full h-full object-fill">
+            <img src="{{ asset("fotoinicio.jpg") }}" alt="Imagen de inicio de la web" class="w-full h-full object-fill">
         </div>
 
         <!-- Botón de Cerrar Sesión en la esquina superior derecha -->
@@ -45,23 +45,23 @@
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input id="tienda-checkbox" type="checkbox" class="sr-only peer" {{ $setting->mostrar_tienda ? 'checked' : '' }}>
                         <div class="group peer ring-0 bg-rose-400 rounded-full outline-none duration-300 after:duration-300 w-16 h-8 shadow-md
-                                                            peer-checked:bg-emerald-500 peer-focus:outline-none 
-                                                            after:content-['✖️'] after:rounded-full after:absolute after:bg-gray-50 after:outline-none 
-                                                            after:h-6 after:w-6 after:top-1 after:left-1 
-                                                            after:flex after:justify-center after:items-center 
-                                                            peer-checked:after:translate-x-8 peer-checked:after:content-['✔️'] 
-                                                            peer-hover:after:scale-95">
+                                                                peer-checked:bg-emerald-500 peer-focus:outline-none 
+                                                                after:content-['✖️'] after:rounded-full after:absolute after:bg-gray-50 after:outline-none 
+                                                                after:h-6 after:w-6 after:top-1 after:left-1 
+                                                                after:flex after:justify-center after:items-center 
+                                                                peer-checked:after:translate-x-8 peer-checked:after:content-['✔️'] 
+                                                                peer-hover:after:scale-95">
                         </div>
                     </label>
                 </div>
 
                 <!-- <div class="bg-blue-50 p-4 rounded-lg text-center text-blue-800 border border-blue-200">
-                                        <p class="text-sm">@if ($setting->mostrar_tienda)
-                                            La tienda está activa.
-                                        @else
-                                                La tienda está inactiva.
-                                            @endif</p>
-                                    </div> -->
+                                            <p class="text-sm">@if ($setting->mostrar_tienda)
+                                                La tienda está activa.
+                                            @else
+                                                    La tienda está inactiva.
+                                                @endif</p>
+                                        </div> -->
                 <ul class="divide-y divide-gray-200">
                     @foreach($productos as $producto)
                         <li class="py-2 flex items-center">
