@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TiendaController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -56,3 +57,10 @@ Route::middleware(['auth','cliente'])->group(function () {
 });
 
 Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+
+
+//automatizacion de la tienda:
+Route::get('/run-scheduler', function () {
+    Artisan::call('schedule:run');
+    return 'Scheduler ejecutado';
+});

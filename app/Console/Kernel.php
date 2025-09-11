@@ -10,14 +10,19 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      */
-    protected function schedule(Schedule $schedule): void
-    {
-        // Activa la tienda todos los días a las 6:30 PM (18:30)
-        $schedule->command('tienda:cambiar-estado', ['status' => 1])->dailyAt('18:30');
+   protected function schedule(Schedule $schedule): void
+{
+    // Activar tienda domingo a jueves a las 18:30
+    $schedule->command('tienda:cambiar-estado', ['status' => 1])
+             ->dailyAt('18:30')
+             ->days([0, 1, 2, 3, 4]);
 
-        // Desactiva la tienda todos los días a las 11:30 AM (11:30)
-        $schedule->command('tienda:cambiar-estado', ['status' => 0])->dailyAt('11:30');
-    }
+    // Desactivar tienda lunes a viernes a las 11:30
+    $schedule->command('tienda:cambiar-estado', ['status' => 0])
+             ->dailyAt('11:30')
+             ->days([1, 2, 3, 4, 5]);
+}
+
     /**
      * Register the commands for the application.
      */
