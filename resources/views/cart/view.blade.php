@@ -1,40 +1,7 @@
 @extends('plantilla')
 @section('contenido')
-    <div class="relative flex flex-col min-h-screen font-inter bg-gray-100">
-        <!-- Contenedor de la imagen que ocupa 1/3 de la pantalla -->
-        <div class="w-full h-1/3">
-            <img src="{{ asset("fotoInicio.png") }}" alt="Imagen de inicio de la tienda" class="w-full h-full object-fill">
-        </div>
+    <div class="relative flex flex-col min-h-screen font-inter bg-gray-200">
 
-        <!-- Botón de Cerrar Sesión en la esquina superior derecha -->
-        <div class="absolute top-46 right-4 flex items-start">
-            <span style="font-family: 'Verdana_Italic', sans-serif; "
-                class="username text-l italic font-bold text-red-800 text-center mb-8">
-                {{ Auth::user()->name }} &nbsp; &nbsp;
-            </span>
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit"
-                    class="bg-red-800 hover:bg-red-900 text-white font-bold rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
-                    <svg fill="#ffffff" height="40px" width="40px" version="1.1" id="Layer_1"
-                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500"
-                        enable-background="new 0 0 500 500" xml:space="preserve" stroke="#ffffff">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <g>
-                                <path
-                                    d="M250,224c-4.4,0-8,3.6-8,8v24c0,4.4-3.6,8-8,8h-40c-4.4,0-8-3.6-8-8V144c0-4.4,3.6-8,8-8h40c4.4,0,8,3.6,8,8v24 c0,4.4,3.6,8,8,8s8-3.6,8-8v-24c0-13.2-10.8-24-24-24h-40c-13.2,0-24,10.8-24,24v112c0,13.2,10.8,24,24,24h40c13.2,0,24-10.8,24-24 v-24C258,227.6,254.4,224,250,224z">
-                                </path>
-                                <path
-                                    d="M328.4,204.8c0.1-0.1,0.2-0.2,0.3-0.3c0,0,0,0,0-0.1c0.1-0.2,0.2-0.4,0.3-0.6c0.1-0.3,0.3-0.5,0.4-0.8 c0.1-0.3,0.2-0.5,0.3-0.8c0.1-0.2,0.2-0.4,0.2-0.7c0.2-1,0.2-2.1,0-3.1c0,0,0,0,0,0c0-0.2-0.1-0.4-0.2-0.7 c-0.1-0.3-0.1-0.5-0.2-0.8c0,0,0,0,0,0c-0.1-0.3-0.3-0.5-0.4-0.8c-0.1-0.2-0.2-0.4-0.3-0.6c-0.3-0.4-0.6-0.9-1-1.2l-32-32 c-3.1-3.1-8.2-3.1-11.3,0c-3.1,3.1-3.1,8.2,0,11.3l18.3,18.3H210c-4.4,0-8,3.6-8,8s3.6,8,8,8h92.7l-18.3,18.3 c-3.1,3.1-3.1,8.2,0,11.3c1.6,1.6,3.6,2.3,5.7,2.3s4.1-0.8,5.7-2.3l32-32c0,0,0,0,0,0C327.9,205.4,328.1,205.1,328.4,204.8z">
-                                </path>
-                            </g>
-                        </g>
-                    </svg>
-                </button>
-            </form>
-        </div>
 
         <!-- Contenedor principal de opciones que ocupa los 2/3 restantes -->
         <div class="flex-1 flex items-start justify-center">
@@ -59,23 +26,8 @@
 
                 <div class="space-y-4 px-4">
                     @if($cartItems->isEmpty())
-                        <p class="text-gray-500 text-center py-4">Tu cesta está vacía.</p>
+                        <p class="text-gray-600 text-center py-4">Tu cesta está vacía.</p>
                     @else
-                        <!-- Mensajes flash -->
-                        @if (session('error'))
-                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                                <strong class="font-bold">¡Error!</strong>
-                                <span class="block sm:inline">{{ session('error') }}</span>
-                            </div>
-                        @endif
-
-                        @if (session('success'))
-                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
-                                role="alert">
-                                <strong class="font-bold">¡Éxito!</strong>
-                                <span class="block sm:inline">{{ session('success') }}</span>
-                            </div>
-                        @endif
 
                         @foreach($cartItems as $item)
                             <div
@@ -124,7 +76,7 @@
                             <g id="SVGRepo_iconCarrier">
                                 <path
                                     d="M20 11.6211V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18V11.6211M7.5 9.75C7.5 10.9926 6.49264 12 5.25 12C4.09397 12 3.14157 11.1282 3.01442 10.0062C2.99524 9.83688 3.02176 9.66657 3.06477 9.50173L4.10996 5.49516C4.3397 4.6145 5.13506 4 6.04519 4H17.9548C18.8649 4 19.6603 4.6145 19.89 5.49516L20.9352 9.50173C20.9782 9.66657 21.0048 9.83688 20.9856 10.0062C20.8584 11.1282 19.906 12 18.75 12C17.5074 12 16.5 10.9926 16.5 9.75M7.5 9.75C7.5 10.9926 8.50736 12 9.75 12C10.9926 12 12 10.9926 12 9.75M7.5 9.75L8 4M12 9.75C12 10.9926 13.0074 12 14.25 12C15.4926 12 16.5 10.9926 16.5 9.75M12 9.75V4M16.5 9.75L16 4"
-                                    stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    stroke="#991B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 </path>
                             </g>
                         </svg>
@@ -132,10 +84,10 @@
                     </a>
                     <a href="{{ route('order.index') }}"
                         class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
-                        <svg width="30px" height="30px" viewBox="0 0 1024.00 1024.00" fill="#000000" class="icon"
+                        <svg width="30px" height="30px" viewBox="0 0 1024.00 1024.00" fill="#991B1B" class="icon"
                             version="1.1" xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC"
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#991B1B"
                                 stroke-width="2.048"></g>
                             <g id="SVGRepo_iconCarrier">
                                 <path
@@ -149,8 +101,8 @@
                     </a>
                     <a href="{{ route('cart.view') }}"
                         class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
-                        <svg width="30px" height="30px" viewBox="0 0 1024 1024" fill="#000000" class="icon" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="6.144">
+                        <svg width="30px" height="30px" viewBox="0 0 1024 1024" fill="#991B1B" class="icon" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" stroke="#991B1B" stroke-width="6.144">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                             <g id="SVGRepo_iconCarrier">
@@ -225,4 +177,34 @@
                 </div>
             </div>
         </div>
+        @if (session('success'))
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    Toastify({
+                        text: "{{ session('success') }}",
+                        duration: 2000,
+                        gravity: "bottom",
+                        position: "center",
+                        backgroundColor: "#38a169",
+                        stopOnFocus: true
+                    }).showToast();
+                });
+            </script>
+        @endif
+
+        @if (session('error'))
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    Toastify({
+                        text: "{{ session('error') }}",
+                        duration: 2000,
+                        gravity: "bottom",
+                        position: "center",
+                        backgroundColor: "linear-gradient(to right, #e53e3e, #f56565)",
+                        stopOnFocus: true
+                    }).showToast();
+                });
+            </script>
+        @endif
+
 @endsection

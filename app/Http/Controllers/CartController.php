@@ -21,7 +21,7 @@ class CartController extends Controller
             ->where('user_id', Auth::id())
             ->get();
 
-        return view('cart.view', ['cartItems' => $cartItems]);
+        return view('cart.view', ['cartItems' => $cartItems])->with('success', session('success'))->with('error', session('error'));
     }
 
     /**
@@ -138,7 +138,7 @@ class CartController extends Controller
 
             DB::commit();
 
-            return redirect()->route('order.index')->with('success', 'Pedido realizado con éxito');
+            return redirect()->route('order.index')->with('success', '¡¡Pedido realizado con éxito!!');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', $e->getMessage());

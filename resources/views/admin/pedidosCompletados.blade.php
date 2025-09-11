@@ -8,11 +8,11 @@
                 </p>
 
                 <div class="flex mb-4 justify-between items-center">
-                    <form action="{{ route('pedidos.index') }}" method="GET">
+                    <form action="{{ route('pedidosCompletados.index') }}" method="GET">
                         <input type="text" name="search" placeholder="Buscar pedidos..." value="{{ request('search') }}"
                             class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </form>
-                    <a href="{{ route('pedidos.index') }}" class="bg-red-800 px-4 py-2 border rounded-md shadow-sm"><svg
+                    <a href="{{ route('pedidos.index') }}" class="bg-lime-700 px-4 py-2 border rounded-md shadow-sm"><svg
                             width="30px" height="30px" viewBox="0 0 1024 1024" fill="#ffffff" class="icon" version="1.1"
                             xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -31,8 +31,8 @@
                 <div class="flex flex-col gap-2 mb-18 ">
                     @forelse ($orders as $order)
                         <div
-                            class="bg-white shadow-md rounded-xl p-6 transition-transform transform hover:scale-105 hover:shadow-xl duration-300 ease-in-out border border-gray-200">
-                            <div class="flex justify-between items-center mb-4 pb-4 border-b border-gray-200 w-full">
+                            class="bg-white shadow-md rounded-xl px-6 py-6 transition-transform transform hover:scale-105 hover:shadow-xl duration-300 ease-in-out border border-gray-200">
+                            <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-200 w-full">
                                 <div class="flex justify-between items-center w-full">
                                     <h3 class="text-xl font-bold text-gray-800">
                                         {{ $order->user->name }}
@@ -54,14 +54,14 @@
 
 
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                                 <div class="flex flex-col">
                                 </div>
                                 <div class="flex flex-col col-span-1 md:col-span-2">
-                                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Productos</h4>
+                                    <h4 class="text-lg font-semibold text-gray-800 mb-1">Productos</h4>
                                     <ul class="divide-y divide-gray-100">
                                         @foreach ($order->items as $item)
-                                            <li class="flex justify-between items-center py-2">
+                                            <li class="flex justify-between items-center py-1">
                                                 <span class="text-gray-600 font-medium text-sm">{{ $item->product->name }}</span>
                                                 <span class="text-gray-500 text-sm">x{{ $item->quantity }}</span>
                                                 <span class="text-gray-700 font-semibold">
@@ -98,17 +98,17 @@
                     <g id="SVGRepo_iconCarrier">
                         <path
                             d="M20 11.6211V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18V11.6211M7.5 9.75C7.5 10.9926 6.49264 12 5.25 12C4.09397 12 3.14157 11.1282 3.01442 10.0062C2.99524 9.83688 3.02176 9.66657 3.06477 9.50173L4.10996 5.49516C4.3397 4.6145 5.13506 4 6.04519 4H17.9548C18.8649 4 19.6603 4.6145 19.89 5.49516L20.9352 9.50173C20.9782 9.66657 21.0048 9.83688 20.9856 10.0062C20.8584 11.1282 19.906 12 18.75 12C17.5074 12 16.5 10.9926 16.5 9.75M7.5 9.75C7.5 10.9926 8.50736 12 9.75 12C10.9926 12 12 10.9926 12 9.75M7.5 9.75L8 4M12 9.75C12 10.9926 13.0074 12 14.25 12C15.4926 12 16.5 10.9926 16.5 9.75M12 9.75V4M16.5 9.75L16 4"
-                            stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            stroke="#991B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                     </g>
                 </svg>
                 Tienda
             </a>
             <a href="{{ route('pedidos.index') }}"
                 class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
-                <svg width="30px" height="30px" viewBox="0 0 1024.00 1024.00" fill="#000000" class="icon" version="1.1"
+                <svg width="30px" height="30px" viewBox="0 0 1024.00 1024.00" fill="#991B1B" class="icon" version="1.1"
                     xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC"
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#991B1B"
                         stroke-width="2.048"></g>
                     <g id="SVGRepo_iconCarrier">
                         <path
@@ -123,8 +123,8 @@
             </a>
             <a href="{{ route('productos.index') }} "
                 class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
-                <svg width="30px" height="30px" viewBox="0 0 1024 1024" fill="#000000" class="icon" version="1.1"
-                    xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="6.144">
+                <svg width="30px" height="30px" viewBox="0 0 1024 1024" fill="#991B1B" class="icon" version="1.1"
+                    xmlns="http://www.w3.org/2000/svg" stroke="#991B1B" stroke-width="6.144">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                     <g id="SVGRepo_iconCarrier">
@@ -203,7 +203,7 @@
                     <g id="SVGRepo_iconCarrier">
                         <path
                             d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
-                            stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            stroke="#991B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                     </g>
                 </svg>
 

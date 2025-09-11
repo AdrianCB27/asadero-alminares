@@ -2,18 +2,19 @@
 
 @section("contenido")
 
-    <div class="relative flex flex-col min-h-screen font-inter bg-gray-100">
+    <div class="relative flex flex-col min-h-screen font-inter bg-gray-200">
         <!-- Contenedor de la imagen que ocupa 1/3 de la pantalla -->
         <div class="w-full h-1/3">
-            <img src="{{ asset("fotoInicio.png") }}" alt="Imagen de inicio de la tienda" class="w-full h-full object-fill">
+            <img src="{{ asset("fotoInicio.jpg") }}" alt="Imagen de inicio de la tienda" class="w-full h-full object-fill">
         </div>
 
         <!-- Botón de Cerrar Sesión en la esquina superior derecha -->
-        <div class="absolute top-46 right-4 flex items-start">
-            <span style="font-family: 'Verdana_Italic', sans-serif; "
-                class="username text-l italic font-bold text-red-800 text-center mb-8">
-                {{ Auth::user()->name }} &nbsp; &nbsp;
-            </span>
+        <div class="flex  justify-center mt-3">
+            <p style="font-family: 'Verdana_Italic', sans-serif; "
+                class="username text-2xl italic font-bold text-red-800 text-center mb-3 pt-3">
+                {{ Auth::user()->name }}
+            </p>
+            <!-- 
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button type="submit"
@@ -36,6 +37,7 @@
                     </svg>
                 </button>
             </form>
+            -->
         </div>
 
         <!-- Contenedor principal de opciones que ocupa los 2/3 restantes -->
@@ -60,7 +62,7 @@
                 @if (!$setting->mostrar_tienda)
                     <div class="bg-blue-50 p-4 rounded-lg text-center text-blue-800 border border-blue-200">
 
-                        La tienda está inactiva.
+                        Pantalla inactiva.
                         </p>
                     </div>
                 @endif
@@ -68,22 +70,31 @@
                 <!-- Horario de la tienda -->
                 @if (!$setting->mostrar_tienda)
                     <div class="mt-8 pt-4 border-t border-gray-200">
-                        <h2 class="text-xl font-bold text-gray-900 text-center mb-2">Horario</h2>
                         <p class="text-amber-500 text-center font-bold italic">
                             {!! $mensaje->texto !!}
                         </p>
 
                     </div>
                 @endif
+                <div class="flex justify-center mx-auto my-3">
+                    <h4 class="text-2xl font-bold text-gray-800">
+                        {{ ucfirst(Carbon\Carbon::now()->locale('es')->dayName) }}
+                    </h4>
+                </div>
                 <ul class="divide-y divide-gray-200">
                     @foreach($productos as $producto)
                         <li class="py-2 flex items-center">
-                            <div class="ml-0 flex-1 text-[1.35rem] ">
+                            <div class="ml-0 flex-1 text-2xl ">
                                 <div class="flex justify-center items-center">
-                                    @if ($setting->mostrar_tienda)
+
+                                    @if ($setting->mostrar_tienda && $producto->stock > 0)
                                         <a href="#" class="font-semibold text-red-800 text-center italic"
                                             onclick="showModal('{{ $producto->name }}', {{ $producto->price }}, {{ $producto->id }}, {{ $producto->stock }})">
                                             {{ $producto->name }}
+                                        </a>
+                                    @elseif ($setting->mostrar_tienda && $producto->stock <= 0)
+                                        <span class="font-semibold text-gray-400 text-center italic">{{ $producto->name }}
+                                            (Agotado)</span>
                                         </a>
                                     @else
                                         <span class="font-semibold text-red-800 text-center italic">{{ $producto->name }}</span>
@@ -107,17 +118,17 @@
                         <g id="SVGRepo_iconCarrier">
                             <path
                                 d="M20 11.6211V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18V11.6211M7.5 9.75C7.5 10.9926 6.49264 12 5.25 12C4.09397 12 3.14157 11.1282 3.01442 10.0062C2.99524 9.83688 3.02176 9.66657 3.06477 9.50173L4.10996 5.49516C4.3397 4.6145 5.13506 4 6.04519 4H17.9548C18.8649 4 19.6603 4.6145 19.89 5.49516L20.9352 9.50173C20.9782 9.66657 21.0048 9.83688 20.9856 10.0062C20.8584 11.1282 19.906 12 18.75 12C17.5074 12 16.5 10.9926 16.5 9.75M7.5 9.75C7.5 10.9926 8.50736 12 9.75 12C10.9926 12 12 10.9926 12 9.75M7.5 9.75L8 4M12 9.75C12 10.9926 13.0074 12 14.25 12C15.4926 12 16.5 10.9926 16.5 9.75M12 9.75V4M16.5 9.75L16 4"
-                                stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                stroke="#991B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                         </g>
                     </svg>
                     Tienda
                 </a>
                 <a href="{{ route('order.index') }}"
                     class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
-                    <svg width="30px" height="30px" viewBox="0 0 1024.00 1024.00" fill="#000000" class="icon" version="1.1"
+                    <svg width="30px" height="30px" viewBox="0 0 1024.00 1024.00" fill="#991B1B" class="icon" version="1.1"
                         xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC"
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#991B1B"
                             stroke-width="2.048"></g>
                         <g id="SVGRepo_iconCarrier">
                             <path
@@ -131,8 +142,8 @@
                 </a>
                 <a href="{{ route('cart.view') }}"
                     class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
-                    <svg width="30px" height="30px" viewBox="0 0 1024 1024" fill="#000000" class="icon" version="1.1"
-                        xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="6.144">
+                    <svg width="30px" height="30px" viewBox="0 0 1024 1024" fill="#991B1B" class="icon" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" stroke="#991B1B" stroke-width="6.144">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                         <g id="SVGRepo_iconCarrier">
@@ -257,143 +268,142 @@
         </div>
     </div>
 
-   <script>
-    let currentProductPrice = 0; // precio del producto actual
-    let currentProductId = null; // id del producto actual
-    let currentMaxQuantity = 9;  // límite dinámico según stock
+    <script>
+        let currentProductPrice = 0; // precio del producto actual
+        let currentProductId = null; // id del producto actual
+        let currentMaxQuantity = 9;  // límite dinámico según stock
 
-    // Muestra el modal y lo inicializa con los datos del producto
-    // Ahora recibe también el stock
-    function showModal(productName, productPrice, productId, productStock) {
-        const modal = document.getElementById('productModal');
-        const modalName = document.getElementById('modal-product-name');
-        const quantityInput = document.getElementById('quantity');
+        // Muestra el modal y lo inicializa con los datos del producto
+        // Ahora recibe también el stock
+        function showModal(productName, productPrice, productId, productStock) {
+            const modal = document.getElementById('productModal');
+            const modalName = document.getElementById('modal-product-name');
+            const quantityInput = document.getElementById('quantity');
 
-        // Guardamos datos del producto
-        modalName.textContent = productName;
-        currentProductPrice = productPrice;
-        currentProductId = productId;
-        if(productStock ==0)modalName.textContent += " (Agotado)";
+            // Guardamos datos del producto
+            modalName.textContent = productName;
+            currentProductPrice = productPrice;
+            currentProductId = productId;
 
-        // Calculamos el máximo permitido (mínimo entre stock y 9)
-        currentMaxQuantity = productStock < 9 ? productStock : 9;
+            // Calculamos el máximo permitido (mínimo entre stock y 9)
+            currentMaxQuantity = productStock < 9 ? productStock : 9;
 
-        // Reseteamos cantidad a 1 y actualizamos límite del input
-        quantityInput.value = 1;
-        quantityInput.setAttribute("max", currentMaxQuantity);
+            // Reseteamos cantidad a 1 y actualizamos límite del input
+            quantityInput.value = 1;
+            quantityInput.setAttribute("max", currentMaxQuantity);
 
-        // Actualizamos precio
-        updatePrice();
-
-        // Mostramos modal
-        modal.classList.remove('hidden');
-    }
-
-    // Cierra el modal
-    function closeModal() {
-        const modal = document.getElementById('productModal');
-        modal.classList.add('hidden');
-    }
-
-    // Actualiza precio total
-    function updatePrice() {
-        const quantityInput = document.getElementById('quantity');
-        const totalPriceSpan = document.getElementById('total-price');
-
-        let quantity = parseInt(quantityInput.value);
-
-        // Validación contra el máximo dinámico
-        if (isNaN(quantity) || quantity < 1) {
-            quantity = 1;
-        }
-        if (quantity > currentMaxQuantity) {
-            quantity = currentMaxQuantity;
-        }
-
-        // Corrige el input si el usuario mete un número inválido
-        quantityInput.value = quantity;
-
-        const totalPrice = currentProductPrice * quantity;
-        totalPriceSpan.textContent = `${totalPrice.toFixed(2)}€`;
-    }
-
-    // Funciones para sumar/restar cantidad respetando stock
-    function increaseQuantity() {
-        const quantityInput = document.getElementById('quantity');
-        let quantity = parseInt(quantityInput.value);
-        if (quantity < currentMaxQuantity) {
-            quantityInput.value = quantity + 1;
+            // Actualizamos precio
             updatePrice();
+
+            // Mostramos modal
+            modal.classList.remove('hidden');
         }
-    }
 
-    function decreaseQuantity() {
-        const quantityInput = document.getElementById('quantity');
-        let quantity = parseInt(quantityInput.value);
-        if (quantity > 1) {
-            quantityInput.value = quantity - 1;
-            updatePrice();
+        // Cierra el modal
+        function closeModal() {
+            const modal = document.getElementById('productModal');
+            modal.classList.add('hidden');
         }
-    }
 
-    // Cerrar modal clicando fuera
-    window.onclick = function (event) {
-        const modal = document.getElementById('productModal');
-        if (event.target == modal) {
-            closeModal();
+        // Actualiza precio total
+        function updatePrice() {
+            const quantityInput = document.getElementById('quantity');
+            const totalPriceSpan = document.getElementById('total-price');
+
+            let quantity = parseInt(quantityInput.value);
+
+            // Validación contra el máximo dinámico
+            if (isNaN(quantity) || quantity < 1) {
+                quantity = 1;
+            }
+            if (quantity > currentMaxQuantity) {
+                quantity = currentMaxQuantity;
+            }
+
+            // Corrige el input si el usuario mete un número inválido
+            quantityInput.value = quantity;
+
+            const totalPrice = currentProductPrice * quantity;
+            totalPriceSpan.textContent = `${totalPrice.toFixed(2)}€`;
         }
-    }
 
-    // Finalizar pedido
-    function finalizarPedido() {
-        const form = document.getElementById('checkoutForm');
+        // Funciones para sumar/restar cantidad respetando stock
+        function increaseQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value);
+            if (quantity < currentMaxQuantity) {
+                quantityInput.value = quantity + 1;
+                updatePrice();
+            }
+        }
 
-        addToCart(false).then(() => {
-            form.submit();
-        });
-    }
+        function decreaseQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value);
+            if (quantity > 1) {
+                quantityInput.value = quantity - 1;
+                updatePrice();
+            }
+        }
 
-    // Añadir al carrito
-    function addToCart(keepShopping) {
-        const quantity = document.getElementById('quantity').value;
-
-        return fetch(`/cart/add/${currentProductId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({
-                quantity: quantity
-            })
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message) {
-                    Toastify({
-                        text: data.message,
-                        duration: 1500,
-                        close: false,
-                        gravity: "bottom",
-                        position: "right",
-                        backgroundColor: "#00A86B",
-                    }).showToast();
-                }
+        // Cerrar modal clicando fuera
+        window.onclick = function (event) {
+            const modal = document.getElementById('productModal');
+            if (event.target == modal) {
                 closeModal();
+            }
+        }
 
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                Toastify({
-                    text: 'Ha ocurrido un error al añadir el producto a la cesta.',
-                    duration: 1500,
-                    close: true,
-                    gravity: "bottom",
-                    position: "right",
-                    backgroundColor: "#EF5350",
-                }).showToast();
+        // Finalizar pedido
+        function finalizarPedido() {
+            const form = document.getElementById('checkoutForm');
+
+            addToCart(false).then(() => {
+                form.submit();
             });
-    }
-</script>
+        }
+
+        // Añadir al carrito
+        function addToCart(keepShopping) {
+            const quantity = document.getElementById('quantity').value;
+
+            return fetch(`/cart/add/${currentProductId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    quantity: quantity
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        Toastify({
+                            text: data.message,
+                            duration: 1000,
+                            close: false,
+                            gravity: "bottom",
+                            position: "center",
+                            backgroundColor: "#00A86B",
+                        }).showToast();
+                    }
+                    closeModal();
+
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Toastify({
+                        text: 'Ha ocurrido un error al añadir el producto a la cesta.',
+                        duration: 1000,
+                        close: true,
+                        gravity: "bottom",
+                        position: "center",
+                        backgroundColor: "#EF5350",
+                    }).showToast();
+                });
+        }
+    </script>
 
 @endsection

@@ -5,11 +5,11 @@
     <div class="relative flex flex-col min-h-screen font-inter bg-neutral-200">
         <!-- Contenedor de la imagen que ocupa 1/3 de la pantalla -->
         <div class="w-full h-1/3">
-            <img src="{{ asset("fotoInicio.png") }}" alt="Imagen de inicio de la web" class="w-full h-full object-fill">
+            <img src="{{ asset("fotoInicio.jpg") }}" alt="Imagen de inicio de la web" class="w-full h-full object-fill">
         </div>
 
         <!-- Botón de Cerrar Sesión en la esquina superior derecha -->
-        <div class="absolute top-45 right-4 flex">
+        <div class="flex justify-center mt-4">
             <span style="font-family: 'Verdana_Italic', sans-serif;"
                 class="text-xl italic font-bold text-red-800 text-center mb-8">
                 {{ Auth::user()->name }}
@@ -38,41 +38,41 @@
             </form>
         </div>
 
-        <div class="flex-1 flex items-start justify-center p-4 mb-20">
+        <div class="flex-1 flex items-start justify-center px-4 pb-4 mb-20">
             <div class="bg-neutral-100 p-8 md:p-12 rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md">
                 <div class="flex items-center justify-center mb-4">
                     <h1 class="text-xl font-bold text-gray-900">Tienda</h1> &nbsp; &nbsp;
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input id="tienda-checkbox" type="checkbox" class="sr-only peer" {{ $setting->mostrar_tienda ? 'checked' : '' }}>
                         <div class="group peer ring-0 bg-rose-400 rounded-full outline-none duration-300 after:duration-300 w-16 h-8 shadow-md
-                                            peer-checked:bg-emerald-500 peer-focus:outline-none 
-                                            after:content-['✖️'] after:rounded-full after:absolute after:bg-gray-50 after:outline-none 
-                                            after:h-6 after:w-6 after:top-1 after:left-1 
-                                            after:flex after:justify-center after:items-center 
-                                            peer-checked:after:translate-x-8 peer-checked:after:content-['✔️'] 
-                                            peer-hover:after:scale-95">
+                                                            peer-checked:bg-emerald-500 peer-focus:outline-none 
+                                                            after:content-['✖️'] after:rounded-full after:absolute after:bg-gray-50 after:outline-none 
+                                                            after:h-6 after:w-6 after:top-1 after:left-1 
+                                                            after:flex after:justify-center after:items-center 
+                                                            peer-checked:after:translate-x-8 peer-checked:after:content-['✔️'] 
+                                                            peer-hover:after:scale-95">
                         </div>
                     </label>
                 </div>
 
                 <!-- <div class="bg-blue-50 p-4 rounded-lg text-center text-blue-800 border border-blue-200">
-                        <p class="text-sm">@if ($setting->mostrar_tienda)
-                            La tienda está activa.
-                        @else
-                                La tienda está inactiva.
-                            @endif</p>
-                    </div> -->
+                                        <p class="text-sm">@if ($setting->mostrar_tienda)
+                                            La tienda está activa.
+                                        @else
+                                                La tienda está inactiva.
+                                            @endif</p>
+                                    </div> -->
                 <ul class="divide-y divide-gray-200">
                     @foreach($productos as $producto)
                         <li class="py-2 flex items-center">
-                            <div class="ml-0 flex-1 text-[1.35rem] ">
+                            <div class="ml-0 flex-1 text-2xl ">
                                 <div class="flex justify-center items-center">
                                     @if ($setting->mostrar_tienda && $producto->stock > 0)
                                         <a href="#" class="font-semibold text-red-800 text-center italic"
                                             onclick="showModal('{{ $producto->name }}', {{ $producto->price }}, {{ $producto->id }})">
                                             {{ $producto->name }}
-                                    </a>
-                                     @elseif ($producto->stock <= 0)
+                                        </a>
+                                    @elseif ($producto->stock <= 0)
                                         <span class="font-semibold text-gray-400 text-center italic">{{ $producto->name }}
                                             (Agotado)</span>
                                     @else
@@ -108,17 +108,17 @@
                         <g id="SVGRepo_iconCarrier">
                             <path
                                 d="M20 11.6211V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18V11.6211M7.5 9.75C7.5 10.9926 6.49264 12 5.25 12C4.09397 12 3.14157 11.1282 3.01442 10.0062C2.99524 9.83688 3.02176 9.66657 3.06477 9.50173L4.10996 5.49516C4.3397 4.6145 5.13506 4 6.04519 4H17.9548C18.8649 4 19.6603 4.6145 19.89 5.49516L20.9352 9.50173C20.9782 9.66657 21.0048 9.83688 20.9856 10.0062C20.8584 11.1282 19.906 12 18.75 12C17.5074 12 16.5 10.9926 16.5 9.75M7.5 9.75C7.5 10.9926 8.50736 12 9.75 12C10.9926 12 12 10.9926 12 9.75M7.5 9.75L8 4M12 9.75C12 10.9926 13.0074 12 14.25 12C15.4926 12 16.5 10.9926 16.5 9.75M12 9.75V4M16.5 9.75L16 4"
-                                stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                stroke="#991B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                         </g>
                     </svg>
                     Tienda
                 </a>
                 <a href="{{ route('pedidos.index') }}"
                     class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
-                    <svg width="30px" height="30px" viewBox="0 0 1024.00 1024.00" fill="#000000" class="icon" version="1.1"
+                    <svg width="30px" height="30px" viewBox="0 0 1024.00 1024.00" fill="#991B1B" class="icon" version="1.1"
                         xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC"
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#991B1B"
                             stroke-width="2.048"></g>
                         <g id="SVGRepo_iconCarrier">
                             <path
@@ -132,8 +132,8 @@
                 </a>
                 <a href="{{ route('productos.index') }} "
                     class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
-                    <svg width="30px" height="30px" viewBox="0 0 1024 1024" fill="#000000" class="icon" version="1.1"
-                        xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="6.144">
+                    <svg width="30px" height="30px" viewBox="0 0 1024 1024" fill="#991B1B" class="icon" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" stroke="#991B1B" stroke-width="6.144">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                         <g id="SVGRepo_iconCarrier">
@@ -213,7 +213,7 @@
                         <g id="SVGRepo_iconCarrier">
                             <path
                                 d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
-                                stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                stroke="#991B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                         </g>
                     </svg>
                     Clientes
