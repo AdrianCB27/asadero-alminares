@@ -11,11 +11,11 @@
         <!-- Botón de Cerrar Sesión en la esquina superior derecha -->
         <div class="flex  justify-center mt-3">
             <p style="font-family: 'Verdana_Italic', sans-serif; "
-                class="username text-2xl italic font-bold text-red-800 text-center mb-3 pt-3">
+                class="username text-xl italic font-bold text-red-800 text-center mb-3 pt-3">
                 {{ Auth::user()->name }}
             </p>
-            <!-- 
-                <form action="{{ route('logout') }}" method="POST">
+           
+               <!-- <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit"
                         class="bg-red-800 hover:bg-red-900 text-white font-bold rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
@@ -36,8 +36,8 @@
                             </g>
                         </svg>
                     </button>
-                </form>
-                -->
+                </form> -->
+                
         </div>
 
         <!-- Contenedor principal de opciones que ocupa los 2/3 restantes -->
@@ -77,8 +77,8 @@
                     </div>
                 @endif
                 <div class="flex justify-center mx-auto my-3">
-                    <h4 class="text-2xl font-bold text-gray-800">
-                        {{ ucfirst(Carbon\Carbon::now()->locale('es')->dayName) }}
+                    <h4 class="text-3xl font-bold italic text-gray-600">
+                        {{ $diaSemana->dia }} 
                     </h4>
                 </div>
                 <ul class="divide-y divide-gray-200">

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\DiaSemanaController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TiendaController;
 use Illuminate\Support\Facades\Artisan;
@@ -57,6 +58,10 @@ Route::middleware(['auth','cliente'])->group(function () {
 });
 
 Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+
+
+Route::post('/dia-semana', [DiaSemanaController::class, 'actualizar'])->name('dia.actualizar');
+Route::get('/dia-semana', [DiaSemanaController::class, 'obtener'])->name('dia.obtener');
 
 
 //automatizacion de la tienda:

@@ -21,9 +21,10 @@ class AdminController extends Controller
         $setting = Setting::first(); // Obtiene la primera configuración, asumiendo que solo hay una fila
         $mensaje = Mensaje::first(); // Obtiene el primer mensaje, asumiendo que solo hay una fila
         $productos = Product::all();
+        $diaSemana = \Illuminate\Support\Facades\DB::table('dia_semana_actual')->first();   
 
 
-        return view('admin.dashboard', ["user" => $user, "setting" => $setting, "mensaje" => $mensaje, "productos" => $productos]);
+        return view('admin.dashboard', ["user" => $user, "setting" => $setting, "mensaje" => $mensaje, "productos" => $productos,"diaSemana"=>$diaSemana]);
     }
     public function cambiarTienda(Request $request)
     {
