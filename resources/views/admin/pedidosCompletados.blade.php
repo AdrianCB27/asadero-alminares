@@ -12,7 +12,7 @@
                         <input type="text" name="search" placeholder="Buscar pedidos..." value="{{ request('search') }}"
                             class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </form>
-                    <a href="{{ route('pedidos.index') }}" class="bg-lime-700 px-4 py-2 border rounded-md shadow-sm"><svg
+                    <a href="{{ route('pedidos.index') }}" class="bg-red-800 px-4 py-2 border rounded-md shadow-sm"><svg
                             width="30px" height="30px" viewBox="0 0 1024 1024" fill="#ffffff" class="icon" version="1.1"
                             xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
