@@ -253,7 +253,7 @@
                     @csrf
                     <button type="button" onclick="finalizarPedido()"
                         class="bg-red-800 hover:bg-red-900 text-gray-100 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 p-2">
-                        Finalizar pedido
+                        Pedir
                     </button>
                 </form>
 
