@@ -11,7 +11,7 @@
         <!-- Botón de Cerrar Sesión en la esquina superior derecha -->
         <div class="flexjustify-center mb-3">
             <p style="font-family: 'Verdana_Italic', sans-serif; "
-                class="username text-xl italic font-bold text-red-800 text-center mb-3 pt-3">
+                class="username text-xl italic font-bold text-red-800 text-center pt-3">
                 {{ Auth::user()->name }}
             </p>
 
@@ -42,7 +42,7 @@
 
         <!-- Contenedor principal de opciones que ocupa los 2/3 restantes -->
         <div class="flex-1 flex items-start justify-center p-4 mb-20">
-            <div class="bg-neutral-100 p-8 md:p-12 rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md">
+            <div class="bg-neutral-100 px-8 pt-2 pb-8 md:p-12 rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md" >
                 <!-- Mensajes flash -->
                 @if (session('error'))
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -69,7 +69,7 @@
 
                     </div>
                 @endif
-                <div class="flex justify-center mx-auto my-3">
+                <div class="flex justify-center mx-auto mb-3 mt-3 pt-2">
                     <h4 class="text-3xl font-bold italic text-gray-600">
                         {{ $diaSemana->dia }}
                     </h4>
