@@ -1,6 +1,6 @@
 @extends('plantilla')
 @section('contenido')
-    <div class="relative flex flex-col min-h-screen font-inter bg-gray-200">
+    <div class="relative flex flex-col min-h-screen font-inter bg-neutral-200">
 
 
         <!-- Contenedor principal de opciones que ocupa los 2/3 restantes -->

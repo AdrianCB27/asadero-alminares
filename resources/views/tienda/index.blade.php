@@ -2,7 +2,7 @@
 
 @section("contenido")
 
-    <div class="relative flex flex-col min-h-screen font-inter bg-gray-200">
+    <div class="relative flex flex-col min-h-screen font-inter bg-neutral-200">
         <!-- Contenedor de la imagen que ocupa 1/3 de la pantalla -->
         <div class="w-full h-1/3">
             <img src="{{ asset("fotoinicio.jpg") }}" alt="Imagen de inicio de la tienda" class="w-full h-full object-fill">
