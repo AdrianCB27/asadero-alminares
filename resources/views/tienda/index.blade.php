@@ -243,17 +243,17 @@
             <div class="flex justify-between items-center mt-6 space-x-2 w-full">
                 <!-- Botón "Seguir comprando" -->
                 <button
-                    class="flex-1 bg-green-900 text-white text-sm px-4 py-2 rounded-lg font-semibold transition duration-200 hover:bg-green-800"
+                    class="flex-1 bg-green-900 text-white text-lg px-3 py-2 rounded-lg font-semibold transition duration-200 hover:bg-green-800"
                     onclick="addToCart(true)">
-                    Seguir comprando
+                    Añadir más productos
                 </button>
 
                 <!-- Botón "Finalizar" -->
                 <form id="checkoutForm" action="{{ route('cart.view') }}" method="get">
                     @csrf
                     <button type="button" onclick="finalizarPedido()"
-                        class="bg-red-800 hover:bg-red-900 text-gray-100 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 p-2">
-                        Pedir
+                        class=" py-5  px-4 bg-red-800 hover:bg-red-900 text-gray-100 text-lg rounded-lg shadow-lg transition duration-300 transform hover:scale-105  font-semibold">
+                        Ir a finalizar
                     </button>
                 </form>
 
