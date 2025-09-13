@@ -147,7 +147,7 @@ class AdminController extends Controller
         $user = auth()->user();
         $search = $request->input('search');
 
-        $query = Order::where('completed', false);
+        $query = Order::where('completed', false)->where('total', '>', 0);
 
         if ($search) {
             $query->whereHas('user', function ($subQuery) use ($search) {
