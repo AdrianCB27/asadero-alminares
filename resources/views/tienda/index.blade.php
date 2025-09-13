@@ -228,7 +228,7 @@
                     <button onclick="decreaseQuantity()"
                         class="bg-red-800 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold transition duration-200 hover:bg-red-700">-</button>
                     <input type="number" id="quantity" name="quantity" min="1" max="9" value="1"
-                        class="w-12 text-center rounded border-gray-300 focus:border-red-600 focus:ring-red-600 px-1 py-1"
+                        class="w-12 text-center rounded border-gray-300 focus:border-red-600 focus:ring-red-600 px-1 py-1 text-xl"
                         oninput="updatePrice()">
                     <button onclick="increaseQuantity()"
                         class="bg-red-800 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold transition duration-200 hover:bg-red-700">+</button>
