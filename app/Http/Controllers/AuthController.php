@@ -52,7 +52,7 @@ class AuthController extends Controller
         // Inicia sesión al usuario recién registrado
         Auth::login($user);
 
-        return redirect()->route('tienda')->with('success', '¡Registro completado e inicio de sesión exitoso!');
+        return redirect()->route('tienda')->with('success', '¡Registro completado!');
     }
 
     /**

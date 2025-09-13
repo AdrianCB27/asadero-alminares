@@ -8,7 +8,7 @@
             <div class=" p-8 md:p-12 w-full max-w-sm sm:max-w-md h-full mb-15">
                 <div class="flex justify-center items-center mb-1">
                     <h1 class="text-xl font-bold text-gray-900 text-center mb-4">
-                        Pedidos
+                        Mis pedidos
                     </h1>
                 </div>
 
@@ -65,7 +65,7 @@
 
 
             </div>
-            <div class="fixed bottom-0 left-0 w-full bg-white shadow-inner border-t border-gray-300 z-50">
+            <div class="fixed bottom-0 left-0 w-full bg-neutral-100 shadow-inner border-t border-gray-300 z-50">
                 <div class="flex justify-around p-2">
                     <a href="{{ route('tienda') }}"
                         class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">

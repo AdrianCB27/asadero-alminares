@@ -46,25 +46,25 @@
                         <input id="tienda-checkbox" type="checkbox" class="sr-only peer" {{ $setting->mostrar_tienda ? 'checked' : '' }}>
                         <div
                             class="group peer ring-0 bg-rose-400 rounded-full outline-none duration-300 after:duration-300 w-16 h-8 shadow-md
-                                                                                                        peer-checked:bg-emerald-500 peer-focus:outline-none 
-                                                                                                        after:content-['✖️'] after:rounded-full after:absolute after:bg-gray-50 after:outline-none 
-                                                                                                        after:h-6 after:w-6 after:top-1 after:left-1 
-                                                                                                        after:flex after:justify-center after:items-center 
-                                                                                                        peer-checked:after:translate-x-8 peer-checked:after:content-['✔️'] 
-                                                                                                        peer-hover:after:scale-95">
+                                                                                                            peer-checked:bg-emerald-500 peer-focus:outline-none 
+                                                                                                            after:content-['✖️'] after:rounded-full after:absolute after:bg-gray-50 after:outline-none 
+                                                                                                            after:h-6 after:w-6 after:top-1 after:left-1 
+                                                                                                            after:flex after:justify-center after:items-center 
+                                                                                                            peer-checked:after:translate-x-8 peer-checked:after:content-['✔️'] 
+                                                                                                            peer-hover:after:scale-95">
                         </div>
                     </label>
                 </div>
 
                 <!-- <div class="bg-blue-50 p-4 rounded-lg text-center text-blue-800 border border-blue-200">
-                                                                                    <p class="text-sm">@if ($setting->mostrar_tienda)
-                                                                                        La tienda está activa.
-                                                                                    @else
-                                                                                            La tienda está inactiva.
-                                                                                        @endif</p>
-                                                                                </div> -->
+                                                                                        <p class="text-sm">@if ($setting->mostrar_tienda)
+                                                                                            La tienda está activa.
+                                                                                        @else
+                                                                                                La tienda está inactiva.
+                                                                                            @endif</p>
+                                                                                    </div> -->
                 <div class="flex justify-center gap-2 mx-auto my-3">
-                    <h4  id="dayTitle" class="text-3xl italic font-bold text-gray-600">
+                    <h4 id="dayTitle" class="text-3xl italic font-bold text-gray-600">
                         {{ $diaSemana->dia }}
                     </h4>
                     <p class="mt-2">
@@ -124,7 +124,7 @@
         </div>
 
         <!-- Footer fijo con botones -->
-        <div class="fixed bottom-0 left-0 w-full bg-white shadow-inner border-t border-gray-300 z-50">
+        <div class="fixed bottom-0 left-0 w-full bg-neutral-100 shadow-inner border-t border-gray-300 z-50">
             <div class="flex justify-around p-2">
                 <a href="" class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
                     <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

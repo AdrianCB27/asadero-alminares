@@ -66,7 +66,7 @@
                     @endif
                 </div>
             </div>
-            <div class="fixed bottom-0 left-0 w-full bg-white shadow-inner border-t border-gray-300 z-50">
+            <div class="fixed bottom-0 left-0 w-full bg-neutral-100 shadow-inner border-t border-gray-300 z-50">
                 <div class="flex justify-around p-2">
                     <a href="{{ route('tienda') }}"
                         class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">

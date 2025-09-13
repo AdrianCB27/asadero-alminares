@@ -20,7 +20,7 @@ class AdminController extends Controller
         // Por ejemplo, podrías obtener estadísticas, listas de usuarios, etc.
         $setting = Setting::first(); // Obtiene la primera configuración, asumiendo que solo hay una fila
         $mensaje = Mensaje::first(); // Obtiene el primer mensaje, asumiendo que solo hay una fila
-        $productos = Product::all();
+        $productos = Product::all()->sortBy('id');
         $diaSemana = \Illuminate\Support\Facades\DB::table('dia_semana_actual')->first();   
 
 

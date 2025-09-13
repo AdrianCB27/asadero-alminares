@@ -14,7 +14,7 @@ class TiendaController extends Controller
         $setting=Setting::first();
         $mensaje=Mensaje::first();
         $diaSemana = \Illuminate\Support\Facades\DB::table('dia_semana_actual')->first();
-        $productos=Product::all()->sortBy('name');
+        $productos=Product::all()->sortBy('id');
         return view('tienda.index',["user"=>$user,"setting"=>$setting,"productos"=>$productos, "mensaje"=>$mensaje,"diaSemana"=>$diaSemana]); // Asegúrate de que la vista tienda.index exista
 
     }
