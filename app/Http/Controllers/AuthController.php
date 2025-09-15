@@ -84,8 +84,11 @@ class AuthController extends Controller
             'phone_number' => 'required|string|max:20',
         ]);
 
-        // Intenta encontrar al usuario por nombre y número de teléfono
-        $user = User::where('name', $request->name)
+        // Convertir el nombre a minúsculas
+        $name = strtolower($request->name);
+
+        // Intenta encontrar al usuario por nombre (ahora en minúsculas) y número de teléfono
+        $user = User::where('name', $name)
             ->where('phone_number', $request->phone_number)
             ->first();
 

@@ -12,7 +12,7 @@
         <div class="flexjustify-center mb-3">
             <p style="font-family: 'Verdana_Italic', sans-serif; "
                 class="username text-xl italic font-bold text-red-800 text-center pt-3">
-                {{ Auth::user()->name }}
+                {{ ucfirst(Auth::user()->name) }}
             </p>
 
             <!-- <form action="{{ route('logout') }}" method="POST">
