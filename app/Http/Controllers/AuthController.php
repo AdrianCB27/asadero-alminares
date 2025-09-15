@@ -84,11 +84,12 @@ class AuthController extends Controller
             'phone_number' => 'required|string|max:20',
         ]);
 
-        // Convertir el nombre a minúsculas
-        $name = strtolower($request->name);
+        // Normalizar el nombre: convertir a minúsculas y quitar acentos (si fuera necesario)
+        $normalizedName = strtolower($request->name);
 
-        // Intenta encontrar al usuario por nombre (ahora en minúsculas) y número de teléfono
-        $user = User::where('name', $name)
+        // Intenta encontrar al usuario por nombre normalizado y número de teléfono
+        // La consulta a la base de datos debe ser con el nombre en minúsculas
+        $user = User::whereRaw('LOWER(name) = ?', [$normalizedName])
             ->where('phone_number', $request->phone_number)
             ->first();
 

@@ -12,7 +12,7 @@
         <div class="flexjustify-center mb-3">
             <p style="font-family: 'Verdana_Italic', sans-serif; "
                 class="username text-xl italic font-bold text-red-800 text-center pt-3">
-                {{ ucwords(Auth::user()->name) }}
+                {{ mb_convert_case(Auth::user()->name, MB_CASE_TITLE, "UTF-8") }}
             </p>
 
             <!-- <form action="{{ route('logout') }}" method="POST">

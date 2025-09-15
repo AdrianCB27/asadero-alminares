@@ -19,7 +19,7 @@
                         @foreach ($clientes as $cliente)
                             <li class="p-4 flex items-center justify-between">
                                 <div class="flex-1 pr-4">
-                                    <p class="text-lg font-semibold text-gray-900">{{ ucwords($cliente->name) }}</p>
+                                    <p class="text-lg font-semibold text-gray-900">{{ mb_convert_case($cliente->name, MB_CASE_TITLE, "UTF-8") }}</p>
                                     <p class="text-sm text-gray-500">{{ $cliente->phone_number }}</p>
                                 </div>
                                 <div>
