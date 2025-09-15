@@ -45,11 +45,10 @@ class AuthController extends Controller
         );
 
         $user = User::create([
-            'name' => $request->name,
+            'name' => $request->name, // Laravel aplicará el mutator automáticamente aquí
             'phone_number' => $request->phone_number,
         ]);
 
-        // Inicia sesión al usuario recién registrado
         Auth::login($user);
 
         return redirect()->route('tienda')->with('success', '¡Registro completado!');
@@ -84,12 +83,8 @@ class AuthController extends Controller
             'phone_number' => 'required|string|max:20',
         ]);
 
-        // Normalizar el nombre: convertir a minúsculas y quitar acentos (si fuera necesario)
-        $normalizedName = strtolower($request->name);
-
-        // Intenta encontrar al usuario por nombre normalizado y número de teléfono
-        // La consulta a la base de datos debe ser con el nombre en minúsculas
-        $user = User::whereRaw('LOWER(name) = ?', [$normalizedName])
+        // Intenta encontrar al usuario por nombre y número de teléfono
+        $user = User::where('name', $request->name)
             ->where('phone_number', $request->phone_number)
             ->first();
 
