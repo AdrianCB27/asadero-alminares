@@ -1,6 +1,6 @@
 @extends("plantilla")
 @section("contenido")
-    <div class="relative flex flex-col h-screen font-inter bg-neutral-200 mb-18">
+    <div class="relative flex flex-col h-screen font-inter bg-neutral-200 mb-40">
         <div class="flex-1 flex items-start justify-center p-4 h-screen">
             <div class="bg-neutral-100 p-8 md:p-12 rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md flex flex-col">
                 <p class="text-xl font-bold text-gray-900 text-center mb-4">

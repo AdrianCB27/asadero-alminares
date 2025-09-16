@@ -176,16 +176,29 @@ class AdminController extends Controller
 
         return view('admin.pedidosCompletados', ["user" => $user, "orders" => $orders]);
     }
-    public function marcarPedidoCompletado($id)
-    {
-        try {
-            $order = Order::findOrFail($id);
+   public function marcarPedidoCompletado($userId)
+{
+    try {
+        // Busca todos los pedidos del usuario que no estén ya completados
+        $orders = Order::where('user_id', $userId)
+                       ->where('completed', false)
+                       ->get();
+
+        // Si no se encuentran pedidos, redirige con un mensaje
+        if ($orders->isEmpty()) {
+            return redirect()->route('pedidos.index')->with('info', 'No hay pedidos pendientes para este usuario.');
+        }
+
+        // Itera sobre los pedidos y los marca como completados
+        foreach ($orders as $order) {
             $order->completed = true;
             $order->save();
-            return redirect()->route('pedidos.index')->with('success', 'Pedido marcado como completado.');
-        } catch (\Exception $e) {
-            Log::error("Error al marcar pedido como completado: " . $e->getMessage());
-            return redirect()->route('pedidos.index')->with('error', 'No se pudo marcar el pedido como completado.');
         }
+
+        return redirect()->route('pedidos.index')->with('success', 'Todos los pedidos del usuario se han marcado como completados.');
+    } catch (\Exception $e) {
+        Log::error("Error al marcar pedidos como completados para el usuario {$userId}: " . $e->getMessage());
+        return redirect()->route('pedidos.index')->with('error', 'No se pudieron marcar los pedidos del usuario como completados.');
     }
+}
 }

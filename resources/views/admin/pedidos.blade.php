@@ -39,7 +39,7 @@
                                         {{ $order->user->name }}
                                     </h3>
 
-                                    <span class="flex items-center gap-1 text-xl font-bold text-gray-800">
+                                    <span class="flex items-center gap-1 text-l font-bold text-gray-800">
                                         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                                             stroke="#db0000">
                                             <path
@@ -55,7 +55,7 @@
 
 
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 <div class="flex flex-col">
                                 </div>
                                 <div class="flex flex-col col-span-1 md:col-span-2">
@@ -63,18 +63,24 @@
                                     <ul class="divide-y divide-gray-100">
                                         @foreach ($order->items as $item)
                                             <li class="flex justify-between items-center py-1">
-                                                <span class="text-gray-600 font-medium text-m">{{ $item->product->name }}</span>
-                                                <span class="text-gray-500 text-l">x{{ $item->quantity }}</span>
-                                                <span class="text-gray-700 font-semibold">
-                                                    {{ number_format($item->product->price, 2) }}€</span>
+                                                <span class="text-gray-600 font-medium text-m flex-1 break-words">
+                                                    {{ $item->product->name }}
+                                                </span>
+                                                <div class="flex items-center gap-4 ml-4">
+                                                    <span class="text-gray-800 font-bold text-l">x{{ $item->quantity }}</span>
+                                                    <span class="text-gray-700 font-semibold">
+                                                        {{ number_format($item->product->price, 2) }}€
+                                                    </span>
+                                                </div>
                                             </li>
                                         @endforeach
                                     </ul>
                                 </div>
+
                             </div>
 
                             <div class="mt-6 pt-4 border-t border-gray-200 flex justify-between items-center gap-2">
-                                <form action="{{ route('pedidos.completar', $order->id) }}" method="post">
+                                <form action="{{ route('pedidos.completar', $order->user->id) }}" method="post">
                                     @csrf
                                     <button type="submit"
                                         class="bg-red-800 hover:bg-red-700 text-white font-bold  py-1 px-1 rounded focus:outline-none focus:shadow-outline">

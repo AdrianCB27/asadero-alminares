@@ -14,7 +14,7 @@
                     </form>
                 </div>
 
-                <div class="flex-1 overflow-y-auto text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
+                <div class="flex-1 overflow-y-auto text-gray-700 bg-white shadow-md rounded-xl bg-clip-border mb-18">
                     <ul class="divide-y divide-gray-200">
                         @foreach ($clientes as $cliente)
                             <li class="p-4 flex items-center justify-between">
