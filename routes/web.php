@@ -69,3 +69,8 @@ Route::get('/run-scheduler', function () {
     Artisan::call('schedule:run');
     return 'Scheduler ejecutado';
 });
+
+//Actualizar página cuando se abra la tienda
+Route::get('/tienda/status',function(){
+    return response()->json(['is_open'=>\App\Models\Setting::first()->mostrar_tienda]);
+});

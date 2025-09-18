@@ -1,6 +1,30 @@
 @extends("plantilla")
 
 @section("contenido")
+<script>
+    setInterval(async () => {
+        // Evita que recargue más de una vez
+        if (localStorage.getItem('tiendaRefrescada') === 'true') return;
+
+        let res = await fetch('/tienda/status');
+        let data = await res.json();
+
+        if (data.is_open) {
+            localStorage.setItem('tiendaRefrescada', 'true');
+            window.location.reload();
+        }
+    }, 2000); // cada 2 segundos
+
+    // Al cargar la página, si la tienda está cerrada, se limpia el flag
+    fetch('/tienda/status')
+        .then(r => r.json())
+        .then(data => {
+            if (!data.is_open) {
+                localStorage.removeItem('tiendaRefrescada');
+            }
+        });
+</script>
+
 
     <div class="relative flex flex-col min-h-screen font-inter bg-neutral-200">
         <!-- Contenedor de la imagen que ocupa 1/3 de la pantalla -->

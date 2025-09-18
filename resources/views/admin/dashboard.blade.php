@@ -259,6 +259,7 @@
 
             <select id="daySelect"
                 class="mt-1 block w-full rounded border-gray-300 focus:border-red-600 focus:ring-red-600 mb-4">
+                <option value="Cerrado">Cerrado</option>
                 <option value="Lunes">Lunes</option>
                 <option value="Martes">Martes</option>
                 <option value="Miércoles">Miércoles</option>
