@@ -2,28 +2,61 @@
 
 @section("contenido")
 <script>
-    setInterval(async () => {
-        // Evita que recargue más de una vez
-        if (localStorage.getItem('tiendaRefrescada') === 'true') return;
+(function(){
+  const STATUS_URL = '/tienda/status';
+  const INTERVAL_MS = 2000;
 
-        let res = await fetch('/tienda/status');
-        let data = await res.json();
+  const normalize = v =>
+    (v === true || v === 'true' || v === 1 || v === '1') ? 'true' : 'false';
 
-        if (data.is_open) {
-            localStorage.setItem('tiendaRefrescada', 'true');
-            window.location.reload();
+  async function checkStatus() {
+    try {
+      const res = await fetch(STATUS_URL, { cache: 'no-store' });
+      if (!res.ok) return;
+      const data = await res.json();
+      const isOpen = normalize(data.is_open); // 'true' o 'false'
+
+      const lastKnown = localStorage.getItem('ultimoEstadoTienda'); // 'true'|'false'|null
+      const reloadedFor = localStorage.getItem('tiendaRefrescadaForState'); // 'true'|'false'|null
+
+      // 1) Primera vez que el usuario carga: si la tienda ya está abierta, recarga 1 vez.
+      if (lastKnown === null) {
+        if (isOpen === 'true' && reloadedFor !== isOpen) {
+          localStorage.setItem('ultimoEstadoTienda', isOpen);
+          localStorage.setItem('tiendaRefrescadaForState', isOpen);
+          window.location.reload();
+          return;
         }
-    }, 2000); // cada 2 segundos
+        // inicializamos para poder detectar cambios posteriores
+        localStorage.setItem('ultimoEstadoTienda', isOpen);
+        return;
+      }
 
-    // Al cargar la página, si la tienda está cerrada, se limpia el flag
-    fetch('/tienda/status')
-        .then(r => r.json())
-        .then(data => {
-            if (!data.is_open) {
-                localStorage.removeItem('tiendaRefrescada');
-            }
-        });
+      // 2) Si el estado ha cambiado y aún no hemos recargado por este nuevo estado -> recarga
+      if (isOpen !== lastKnown && reloadedFor !== isOpen) {
+        localStorage.setItem('ultimoEstadoTienda', isOpen);
+        localStorage.setItem('tiendaRefrescadaForState', isOpen);
+        window.location.reload();
+        return;
+      }
+
+      // 3) Si cambió pero ya recargamos para ese estado, solo actualizamos lastKnown
+      if (isOpen !== lastKnown) {
+        localStorage.setItem('ultimoEstadoTienda', isOpen);
+      }
+
+    } catch (err) {
+      console.error('Error comprobando /tienda/status:', err);
+    }
+  }
+
+  // check inmediato + intervalo
+  checkStatus();
+  setInterval(checkStatus, INTERVAL_MS);
+})();
 </script>
+
+
 
 
     <div class="relative flex flex-col min-h-screen font-inter bg-neutral-200">
