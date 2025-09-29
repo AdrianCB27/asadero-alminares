@@ -19,7 +19,9 @@
                         @foreach ($clientes as $cliente)
                             <li class="p-4 flex items-center justify-between">
                                 <div class="flex-1 pr-4">
-                                    <p class="text-lg font-semibold text-gray-900">{{ mb_convert_case($cliente->name, MB_CASE_TITLE, "UTF-8") }}</p>
+                                    <p class="text-lg font-semibold text-gray-900">
+                                        {{ mb_convert_case($cliente->name, MB_CASE_TITLE, "UTF-8") }}
+                                    </p>
                                     <p class="text-sm text-gray-500">{{ $cliente->phone_number }}</p>
                                 </div>
                                 <div>
@@ -54,7 +56,7 @@
     <div class="fixed bottom-0 left-0 w-full bg-neutral-100 shadow-inner border-t border-gray-300 z-50">
         <div class="flex justify-around p-2">
             <a href="{{ route('admin.dashboard') }}"
-                class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
+                class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600 font-semibold">
                 <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -67,7 +69,7 @@
                 Tienda
             </a>
             <a href="{{ route('pedidos.index') }}"
-                class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
+                class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600 font-semibold">
                 <svg width="30px" height="30px" viewBox="0 0 1024.00 1024.00" fill="#991B1B" class="icon" version="1.1"
                     xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -85,7 +87,7 @@
                 Pedidos
             </a>
             <a href="{{ route('productos.index') }} "
-                class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
+                class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600 font-semibold">
                 <svg width="30px" height="30px" viewBox="0 0 1024 1024" fill="#991B1B" class="icon" version="1.1"
                     xmlns="http://www.w3.org/2000/svg" stroke="#991B1B" stroke-width="6.144">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -159,7 +161,7 @@
                 Productos
             </a>
             <a href="{{ route('clientes.index') }}"
-                class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
+                class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600 font-semibold">
                 <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>

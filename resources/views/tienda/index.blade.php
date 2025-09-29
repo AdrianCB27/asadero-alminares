@@ -68,32 +68,32 @@
         <!-- Botón de Cerrar Sesión en la esquina superior derecha -->
         <div class="flexjustify-center mb-3">
             <p style="font-family: 'Verdana_Italic', sans-serif; "
-                class="username text-xl italic font-bold text-red-800 text-center pt-3">
+                class="username text-xl italic font-bold text-gray-600 text-center pt-3">
                 {{ mb_convert_case(Auth::user()->name, MB_CASE_TITLE, "UTF-8") }}
             </p>
 
             <!-- <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button type="submit"
-                                        class="bg-red-800 hover:bg-red-900 text-white font-bold rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
-                                        <svg fill="#ffffff" height="40px" width="40px" version="1.1" id="Layer_1"
-                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500"
-                                            enable-background="new 0 0 500 500" xml:space="preserve" stroke="#ffffff">
-                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                            <g id="SVGRepo_iconCarrier">
-                                                <g>
-                                                    <path
-                                                        d="M250,224c-4.4,0-8,3.6-8,8v24c0,4.4-3.6,8-8,8h-40c-4.4,0-8-3.6-8-8V144c0-4.4,3.6-8,8-8h40c4.4,0,8,3.6,8,8v24 c0,4.4,3.6,8,8,8s8-3.6,8-8v-24c0-13.2-10.8-24-24-24h-40c-13.2,0-24,10.8-24,24v112c0,13.2,10.8,24,24,24h40c13.2,0,24-10.8,24-24 v-24C258,227.6,254.4,224,250,224z">
-                                                    </path>
-                                                    <path
-                                                        d="M328.4,204.8c0.1-0.1,0.2-0.2,0.3-0.3c0,0,0,0,0-0.1c0.1-0.2,0.2-0.4,0.3-0.6c0.1-0.3,0.3-0.5,0.4-0.8 c0.1-0.3,0.2-0.5,0.3-0.8c0.1-0.2,0.2-0.4,0.2-0.7c0.2-1,0.2-2.1,0-3.1c0,0,0,0,0,0c0-0.2-0.1-0.4-0.2-0.7 c-0.1-0.3-0.1-0.5-0.2-0.8c0,0,0,0,0,0c-0.1-0.3-0.3-0.5-0.4-0.8c-0.1-0.2-0.2-0.4-0.3-0.6c-0.3-0.4-0.6-0.9-1-1.2l-32-32 c-3.1-3.1-8.2-3.1-11.3,0c-3.1,3.1-3.1,8.2,0,11.3l18.3,18.3H210c-4.4,0-8,3.6-8,8s3.6,8,8,8h92.7l-18.3,18.3 c-3.1,3.1-3.1,8.2,0,11.3c1.6,1.6,3.6,2.3,5.7,2.3s4.1-0.8,5.7-2.3l32-32c0,0,0,0,0,0C327.9,205.4,328.1,205.1,328.4,204.8z">
-                                                    </path>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                    </button>
-                                </form> -->
+                                            @csrf
+                                            <button type="submit"
+                                                class="bg-red-800 hover:bg-red-900 text-white font-bold rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
+                                                <svg fill="#ffffff" height="40px" width="40px" version="1.1" id="Layer_1"
+                                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500"
+                                                    enable-background="new 0 0 500 500" xml:space="preserve" stroke="#ffffff">
+                                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                                    <g id="SVGRepo_iconCarrier">
+                                                        <g>
+                                                            <path
+                                                                d="M250,224c-4.4,0-8,3.6-8,8v24c0,4.4-3.6,8-8,8h-40c-4.4,0-8-3.6-8-8V144c0-4.4,3.6-8,8-8h40c4.4,0,8,3.6,8,8v24 c0,4.4,3.6,8,8,8s8-3.6,8-8v-24c0-13.2-10.8-24-24-24h-40c-13.2,0-24,10.8-24,24v112c0,13.2,10.8,24,24,24h40c13.2,0,24-10.8,24-24 v-24C258,227.6,254.4,224,250,224z">
+                                                            </path>
+                                                            <path
+                                                                d="M328.4,204.8c0.1-0.1,0.2-0.2,0.3-0.3c0,0,0,0,0-0.1c0.1-0.2,0.2-0.4,0.3-0.6c0.1-0.3,0.3-0.5,0.4-0.8 c0.1-0.3,0.2-0.5,0.3-0.8c0.1-0.2,0.2-0.4,0.2-0.7c0.2-1,0.2-2.1,0-3.1c0,0,0,0,0,0c0-0.2-0.1-0.4-0.2-0.7 c-0.1-0.3-0.1-0.5-0.2-0.8c0,0,0,0,0,0c-0.1-0.3-0.3-0.5-0.4-0.8c-0.1-0.2-0.2-0.4-0.3-0.6c-0.3-0.4-0.6-0.9-1-1.2l-32-32 c-3.1-3.1-8.2-3.1-11.3,0c-3.1,3.1-3.1,8.2,0,11.3l18.3,18.3H210c-4.4,0-8,3.6-8,8s3.6,8,8,8h92.7l-18.3,18.3 c-3.1,3.1-3.1,8.2,0,11.3c1.6,1.6,3.6,2.3,5.7,2.3s4.1-0.8,5.7-2.3l32-32c0,0,0,0,0,0C327.9,205.4,328.1,205.1,328.4,204.8z">
+                                                            </path>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </button>
+                                        </form> -->
 
         </div>
 
@@ -125,7 +125,7 @@
 
                 @endif
                 <div class="flex justify-center mx-auto mb-3 mt-3 pt-2">
-                    <h4 class="text-3xl font-bold italic text-gray-600">
+                    <h4 class="text-3xl font-bold italic text-red-800">
                         {{ $diaSemana->dia }}
                     </h4>
                 </div>
@@ -136,7 +136,7 @@
                                 <div class="flex justify-center items-center">
 
                                     @if ($setting->mostrar_tienda && $producto->stock > 0)
-                                        <a href="#" class="font-semibold text-red-800 text-center italic"
+                                        <a href="#" class="font-semibold text-black text-center italic"
                                             onclick="showModal('{{ $producto->name }}', {{ $producto->price }}, {{ $producto->id }}, {{ $producto->stock }})">
                                             {{ $producto->name }}
                                         </a>
@@ -145,7 +145,7 @@
                                             (Agotado)</span>
                                         </a>
                                     @else
-                                        <span class="font-semibold text-red-800 text-center italic">{{ $producto->name }}</span>
+                                        <span class="font-semibold text-black text-center italic">{{ $producto->name }}</span>
                                     @endif
                                 </div>
                             </div>
@@ -153,11 +153,11 @@
                     @endforeach
                 </ul>
                 @if (!$setting->mostrar_tienda)
-                <div class="">
-                    <p class="text-amber-500 text-center font-bold italic">
-                        {!! $mensaje->texto !!}
-                    </p>
-                </div>
+                    <div class="">
+                        <p class="text-amber-500 text-center font-bold italic">
+                            {!! $mensaje->texto !!}
+                        </p>
+                    </div>
                 @endif
 
 
@@ -166,7 +166,7 @@
 
         <div class="fixed bottom-0 left-0 w-full bg-neutral-100 shadow-inner border-t border-gray-300 z-50">
             <div class="flex justify-around p-2">
-                <a href="" class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
+                <a href="" class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600 font-semibold">
                     <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -179,7 +179,7 @@
                     Tienda
                 </a>
                 <a href="{{ route('order.index') }}"
-                    class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
+                    class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600 font-semibold">
                     <svg width="30px" height="30px" viewBox="0 0 1024.00 1024.00" fill="#991B1B" class="icon" version="1.1"
                         xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -196,7 +196,7 @@
                     </svg> Pedidos
                 </a>
                 <a href="{{ route('cart.view') }}"
-                    class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600">
+                    class="flex flex-col items-center text-sm text-gray-700 hover:text-blue-600 font-semibold">
                     <svg width="30px" height="30px" viewBox="0 0 1024 1024" fill="#991B1B" class="icon" version="1.1"
                         xmlns="http://www.w3.org/2000/svg" stroke="#991B1B" stroke-width="6.144">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -414,7 +414,9 @@
             const form = document.getElementById('checkoutForm');
 
             addToCart(false).then(() => {
-                form.submit();
+                setTimeout(() => {
+                    form.submit();
+                }, 1200);
             });
         }
 
@@ -437,7 +439,7 @@
                     if (data.message) {
                         Toastify({
                             text: data.message,
-                            duration: 1000,
+                            duration: 2000,
                             close: false,
                             gravity: "bottom",
                             position: "center",
@@ -451,7 +453,7 @@
                     console.error('Error:', error);
                     Toastify({
                         text: 'Ha ocurrido un error al añadir el producto a la cesta.',
-                        duration: 1000,
+                        duration: 2000,
                         close: true,
                         gravity: "bottom",
                         position: "center",
