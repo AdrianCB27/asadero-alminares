@@ -1,60 +1,60 @@
 @extends("plantilla")
 
 @section("contenido")
-<script>
-(function(){
-  const STATUS_URL = '/tienda/status';
-  const INTERVAL_MS = 2000;
+    <script>
+        (function () {
+            const STATUS_URL = '/tienda/status';
+            const INTERVAL_MS = 2000;
 
-  const normalize = v =>
-    (v === true || v === 'true' || v === 1 || v === '1') ? 'true' : 'false';
+            const normalize = v =>
+                (v === true || v === 'true' || v === 1 || v === '1') ? 'true' : 'false';
 
-  async function checkStatus() {
-    try {
-      const res = await fetch(STATUS_URL, { cache: 'no-store' });
-      if (!res.ok) return;
-      const data = await res.json();
-      const isOpen = normalize(data.is_open); // 'true' o 'false'
+            async function checkStatus() {
+                try {
+                    const res = await fetch(STATUS_URL, { cache: 'no-store' });
+                    if (!res.ok) return;
+                    const data = await res.json();
+                    const isOpen = normalize(data.is_open); // 'true' o 'false'
 
-      const lastKnown = localStorage.getItem('ultimoEstadoTienda'); // 'true'|'false'|null
-      const reloadedFor = localStorage.getItem('tiendaRefrescadaForState'); // 'true'|'false'|null
+                    const lastKnown = localStorage.getItem('ultimoEstadoTienda'); // 'true'|'false'|null
+                    const reloadedFor = localStorage.getItem('tiendaRefrescadaForState'); // 'true'|'false'|null
 
-      // 1) Primera vez que el usuario carga: si la tienda ya está abierta, recarga 1 vez.
-      if (lastKnown === null) {
-        if (isOpen === 'true' && reloadedFor !== isOpen) {
-          localStorage.setItem('ultimoEstadoTienda', isOpen);
-          localStorage.setItem('tiendaRefrescadaForState', isOpen);
-          window.location.reload();
-          return;
-        }
-        // inicializamos para poder detectar cambios posteriores
-        localStorage.setItem('ultimoEstadoTienda', isOpen);
-        return;
-      }
+                    // 1) Primera vez que el usuario carga: si la tienda ya está abierta, recarga 1 vez.
+                    if (lastKnown === null) {
+                        if (isOpen === 'true' && reloadedFor !== isOpen) {
+                            localStorage.setItem('ultimoEstadoTienda', isOpen);
+                            localStorage.setItem('tiendaRefrescadaForState', isOpen);
+                            window.location.reload();
+                            return;
+                        }
+                        // inicializamos para poder detectar cambios posteriores
+                        localStorage.setItem('ultimoEstadoTienda', isOpen);
+                        return;
+                    }
 
-      // 2) Si el estado ha cambiado y aún no hemos recargado por este nuevo estado -> recarga
-      if (isOpen !== lastKnown && reloadedFor !== isOpen) {
-        localStorage.setItem('ultimoEstadoTienda', isOpen);
-        localStorage.setItem('tiendaRefrescadaForState', isOpen);
-        window.location.reload();
-        return;
-      }
+                    // 2) Si el estado ha cambiado y aún no hemos recargado por este nuevo estado -> recarga
+                    if (isOpen !== lastKnown && reloadedFor !== isOpen) {
+                        localStorage.setItem('ultimoEstadoTienda', isOpen);
+                        localStorage.setItem('tiendaRefrescadaForState', isOpen);
+                        window.location.reload();
+                        return;
+                    }
 
-      // 3) Si cambió pero ya recargamos para ese estado, solo actualizamos lastKnown
-      if (isOpen !== lastKnown) {
-        localStorage.setItem('ultimoEstadoTienda', isOpen);
-      }
+                    // 3) Si cambió pero ya recargamos para ese estado, solo actualizamos lastKnown
+                    if (isOpen !== lastKnown) {
+                        localStorage.setItem('ultimoEstadoTienda', isOpen);
+                    }
 
-    } catch (err) {
-      console.error('Error comprobando /tienda/status:', err);
-    }
-  }
+                } catch (err) {
+                    console.error('Error comprobando /tienda/status:', err);
+                }
+            }
 
-  // check inmediato + intervalo
-  checkStatus();
-  setInterval(checkStatus, INTERVAL_MS);
-})();
-</script>
+            // check inmediato + intervalo
+            checkStatus();
+            setInterval(checkStatus, INTERVAL_MS);
+        })();
+    </script>
 
 
 
@@ -73,27 +73,27 @@
             </p>
 
             <!-- <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit"
-                                class="bg-red-800 hover:bg-red-900 text-white font-bold rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
-                                <svg fill="#ffffff" height="40px" width="40px" version="1.1" id="Layer_1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500"
-                                    enable-background="new 0 0 500 500" xml:space="preserve" stroke="#ffffff">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <g>
-                                            <path
-                                                d="M250,224c-4.4,0-8,3.6-8,8v24c0,4.4-3.6,8-8,8h-40c-4.4,0-8-3.6-8-8V144c0-4.4,3.6-8,8-8h40c4.4,0,8,3.6,8,8v24 c0,4.4,3.6,8,8,8s8-3.6,8-8v-24c0-13.2-10.8-24-24-24h-40c-13.2,0-24,10.8-24,24v112c0,13.2,10.8,24,24,24h40c13.2,0,24-10.8,24-24 v-24C258,227.6,254.4,224,250,224z">
-                                            </path>
-                                            <path
-                                                d="M328.4,204.8c0.1-0.1,0.2-0.2,0.3-0.3c0,0,0,0,0-0.1c0.1-0.2,0.2-0.4,0.3-0.6c0.1-0.3,0.3-0.5,0.4-0.8 c0.1-0.3,0.2-0.5,0.3-0.8c0.1-0.2,0.2-0.4,0.2-0.7c0.2-1,0.2-2.1,0-3.1c0,0,0,0,0,0c0-0.2-0.1-0.4-0.2-0.7 c-0.1-0.3-0.1-0.5-0.2-0.8c0,0,0,0,0,0c-0.1-0.3-0.3-0.5-0.4-0.8c-0.1-0.2-0.2-0.4-0.3-0.6c-0.3-0.4-0.6-0.9-1-1.2l-32-32 c-3.1-3.1-8.2-3.1-11.3,0c-3.1,3.1-3.1,8.2,0,11.3l18.3,18.3H210c-4.4,0-8,3.6-8,8s3.6,8,8,8h92.7l-18.3,18.3 c-3.1,3.1-3.1,8.2,0,11.3c1.6,1.6,3.6,2.3,5.7,2.3s4.1-0.8,5.7-2.3l32-32c0,0,0,0,0,0C327.9,205.4,328.1,205.1,328.4,204.8z">
-                                            </path>
-                                        </g>
-                                    </g>
-                                </svg>
-                            </button>
-                        </form> -->
+                                    @csrf
+                                    <button type="submit"
+                                        class="bg-red-800 hover:bg-red-900 text-white font-bold rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
+                                        <svg fill="#ffffff" height="40px" width="40px" version="1.1" id="Layer_1"
+                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500"
+                                            enable-background="new 0 0 500 500" xml:space="preserve" stroke="#ffffff">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <g>
+                                                    <path
+                                                        d="M250,224c-4.4,0-8,3.6-8,8v24c0,4.4-3.6,8-8,8h-40c-4.4,0-8-3.6-8-8V144c0-4.4,3.6-8,8-8h40c4.4,0,8,3.6,8,8v24 c0,4.4,3.6,8,8,8s8-3.6,8-8v-24c0-13.2-10.8-24-24-24h-40c-13.2,0-24,10.8-24,24v112c0,13.2,10.8,24,24,24h40c13.2,0,24-10.8,24-24 v-24C258,227.6,254.4,224,250,224z">
+                                                    </path>
+                                                    <path
+                                                        d="M328.4,204.8c0.1-0.1,0.2-0.2,0.3-0.3c0,0,0,0,0-0.1c0.1-0.2,0.2-0.4,0.3-0.6c0.1-0.3,0.3-0.5,0.4-0.8 c0.1-0.3,0.2-0.5,0.3-0.8c0.1-0.2,0.2-0.4,0.2-0.7c0.2-1,0.2-2.1,0-3.1c0,0,0,0,0,0c0-0.2-0.1-0.4-0.2-0.7 c-0.1-0.3-0.1-0.5-0.2-0.8c0,0,0,0,0,0c-0.1-0.3-0.3-0.5-0.4-0.8c-0.1-0.2-0.2-0.4-0.3-0.6c-0.3-0.4-0.6-0.9-1-1.2l-32-32 c-3.1-3.1-8.2-3.1-11.3,0c-3.1,3.1-3.1,8.2,0,11.3l18.3,18.3H210c-4.4,0-8,3.6-8,8s3.6,8,8,8h92.7l-18.3,18.3 c-3.1,3.1-3.1,8.2,0,11.3c1.6,1.6,3.6,2.3,5.7,2.3s4.1-0.8,5.7-2.3l32-32c0,0,0,0,0,0C327.9,205.4,328.1,205.1,328.4,204.8z">
+                                                    </path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </button>
+                                </form> -->
 
         </div>
 
@@ -119,12 +119,10 @@
 
                 <!-- Horario de la tienda -->
                 @if (!$setting->mostrar_tienda)
-                    <div class="">
-                        <p class="text-amber-500 text-center font-bold italic">
-                            {!! $mensaje->texto !!}
-                        </p>
-
+                    <div class="mb-4 p-2 bg-blue-100 border border-blue-300 text-blue-700 text-center font-semibold rounded">
+                        Pantalla inactiva
                     </div>
+
                 @endif
                 <div class="flex justify-center mx-auto mb-3 mt-3 pt-2">
                     <h4 class="text-3xl font-bold italic text-gray-600">
@@ -154,6 +152,13 @@
                         </li>
                     @endforeach
                 </ul>
+                @if (!$setting->mostrar_tienda)
+                <div class="">
+                    <p class="text-amber-500 text-center font-bold italic">
+                        {!! $mensaje->texto !!}
+                    </p>
+                </div>
+                @endif
 
 
             </div>
@@ -284,8 +289,8 @@
                 <div class="flex items-center space-x-2">
                     <button onclick="decreaseQuantity()"
                         class="bg-red-800 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold transition duration-200 hover:bg-red-700">-</button>
-                    <input type="number" id="quantity" name="quantity" min="1" max="9" value="1"
-                        class="w-12 text-center rounded border-gray-300 focus:border-red-600 focus:ring-red-600 px-1 py-1 text-xl"
+                    <input disabled type="number" id="quantity" name="quantity" min="1" max="9" value="1"
+                        class="w-12 text-center rounded border-gray-300 focus:border-red-600 focus:ring-red-600 px-1 py-1 text-2xl"
                         oninput="updatePrice()">
                     <button onclick="increaseQuantity()"
                         class="bg-red-800 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold transition duration-200 hover:bg-red-700">+</button>
